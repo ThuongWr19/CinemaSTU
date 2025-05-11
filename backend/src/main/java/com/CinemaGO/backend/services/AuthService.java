@@ -8,10 +8,9 @@ import com.CinemaGO.backend.entities.User;
 import com.CinemaGO.backend.repositories.UserRepository;
 import com.CinemaGO.backend.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,43 +32,65 @@ public class AuthService {
     private JwtTokenProvider tokenProvider;
 
     public AuthResponse login(LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
         try {
-            System.out.println("Login attempt for: " + loginRequest.getUsername());
+            System.out.println("Login attempt for: " + username);
 
-            // Check if user exists before authentication
-            boolean userExists = userRepository.existsByUsername(loginRequest.getUsername());
+            boolean userExists = userRepository.existsByUsername(username);
             System.out.println("User exists in database: " + userExists);
 
             if (!userExists) {
-                throw new UsernameNotFoundException("User not found: " + loginRequest.getUsername());
+                System.out.println("User not found: " + username);
+                throw new UsernameNotFoundException("User not found: " + username);
             }
 
-            // Try to authenticate
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
+            User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+            System.out.println("Found user: " + user.getUsername());
+            //  IMPORTANT:  Remove this in production!
+            System.out.println("Password from DB (first 10 chars): " +
+                    (user.getPassword().length() > 10 ?
+                            user.getPassword().substring(0, 10) + "..." :
+                            "too short"));
+
+            Authentication authentication = null;
+            try {
+                authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                username,
+                                loginRequest.getPassword()
+                        )
+                );
+                System.out.println("Authentication successful for: " + username);
+            } catch (BadCredentialsException e) {
+                System.err.println("Bad credentials for user: " + username + ": " + e.getMessage());
+                throw new RuntimeException("Sai tên đăng nhập hoặc mật khẩu", e); //  Wrap and rethrow
+            } catch (DisabledException e) {
+                System.err.println("Account is disabled for user: " + username + ": " + e.getMessage());
+                throw new RuntimeException("Tài khoản bị vô hiệu hóa", e);
+            } catch (LockedException e) {
+                System.err.println("Account is locked for user: " + username + ": " + e.getMessage());
+                throw new RuntimeException("Tài khoản bị khóa", e);
+            } catch (AuthenticationException e) {
+                System.err.println("Authentication failed for user: " + username + ": " + e.getMessage());
+                e.printStackTrace();
+                throw new RuntimeException("Đăng nhập thất bại", e);
+            }
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
 
-            User user = userRepository.findByUsername(loginRequest.getUsername())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+            return new AuthResponse(jwt, user.getUsername(), user.getFullName(), user.getRole());
 
-            System.out.println("Authentication successful for: " + loginRequest.getUsername());
-            return new AuthResponse(jwt, user.getUsername(), user.getFullName());
         } catch (UsernameNotFoundException e) {
             System.out.println("Username not found: " + e.getMessage());
             throw e;
-        } catch (BadCredentialsException e) {
-            System.out.println("Bad credentials for user: " + loginRequest.getUsername());
+        } catch (RuntimeException e) { //  Catch our wrapped exceptions
+            System.err.println("Login error: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            System.out.println("Authentication exception: " + e.getClass().getName() + ": " + e.getMessage());
+            System.err.println("Unexpected error during login: " + e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-            throw e;
+            throw new RuntimeException("Lỗi không xác định", e);  //  Wrap and rethrow
         }
     }
 
@@ -87,7 +108,7 @@ public class AuthService {
         // Create new user
         User user = new User();
         user.setUsername(registerRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));  // This is correct
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
 

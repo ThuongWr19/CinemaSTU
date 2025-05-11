@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "account")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +18,7 @@ public class User {
     private String password;
     private String email;
     private String fullName;
-    private String role = "USER";
+    @Enumerated(EnumType.STRING)
+    private Roles role = Roles.USER;
 
-    public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
-    }
 }

@@ -10,7 +10,8 @@ const routes = {
     '/khuyenmai': '/frontend/template/promotions.html',
     '/lienhe': '/frontend/template/contact.html',
     '/chinhsach': '/frontend/template/policy.html',
-    '/faq': '/frontend/template/faq.html'
+    '/faq': '/frontend/template/faq.html',
+    '/admin': '/frontend/template/faq.html'
 };
 
 // Application container

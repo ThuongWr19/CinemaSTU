@@ -11,7 +11,8 @@ const auth = {
             return {
                 username: localStorage.getItem('username'),
                 fullName: localStorage.getItem('fullName'),
-                token: localStorage.getItem('token')
+                token: localStorage.getItem('token'),
+                role: localStorage.getItem('role')
             };
         }
         return null;
@@ -40,6 +41,16 @@ function updateLoginState() {
     
     if (auth.isLoggedIn()) {
         const user = auth.getCurrentUser();
+        let adminMenu = ''; // Khai báo biến để build menu admin
+        
+        // Thêm menu admin nếu có quyền
+        if (user.role === 'ADMIN') {
+            adminMenu = `
+                <li><a class="dropdown-item" href="/admin">Dashboard Admin</a></li>
+            `;
+        }
+
+        // Xây dựng toàn bộ HTML
         authButtons.innerHTML = `
             <span class="me-3">Xin chào, ${user.fullName}</span>
             <div class="dropdown d-inline-block">
@@ -49,12 +60,13 @@ function updateLoginState() {
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
                     <li><a class="dropdown-item" href="/tickets">Vé đã đặt</a></li>
+                    ${adminMenu}
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" id="logoutBtn">Đăng xuất</a></li>
                 </ul>
             </div>
         `;
-        
+
         // Add logout event listener
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
@@ -74,6 +86,7 @@ function updateLoginState() {
         `;
     }
 }
+
 
 // Helper function to make authenticated API requests
 async function authFetch(url, options = {}) {

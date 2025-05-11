@@ -30,10 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         System.out.println("Request URI: " + path);
 
-        // Log more request details for debugging
-        System.out.println("Request Method: " + request.getMethod());
-        System.out.println("Authorization Header: " + request.getHeader("Authorization"));
-
         // Bỏ qua xác thực JWT cho các API công khai
         if (path.startsWith("/api/auth") || path.startsWith("/api/public") || path.startsWith("/api/movies")) {
             filterChain.doFilter(request, response);
