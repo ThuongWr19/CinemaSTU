@@ -1,0 +1,80 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Đăng ký</h3>
+                </div>
+                <div class="card-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Tên đăng nhập</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" id="fullName" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Đã có tài khoản? <a href="/dangnhap">Đăng nhập</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const fullName = document.getElementById("fullName").value;
+
+        // Kiểm tra mật khẩu
+        if (password.length < 6) {
+            alert("Mật khẩu phải có ít nhất 6 ký tự!");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password,
+                    fullName: fullName
+                })
+            });
+
+            const data = await response.text();
+
+            if (response.ok) {
+                alert("Đăng ký thành công! Vui lòng đăng nhập.");
+                window.router.navigate("/dangnhap");
+            } else {
+                alert(data || "Đăng ký thất bại!");
+            }
+        } catch (error) {
+            console.error("Lỗi:", error);
+            alert("Kết nối đến server thất bại!");
+        }
+    });
+</script>

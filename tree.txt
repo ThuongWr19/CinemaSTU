@@ -1,0 +1,179 @@
+Folder PATH listing for volume Windows
+Volume serial number is 346B-D6DB
+C:.
+¦   index.html
+¦   README.md
+¦   tree.txt
+¦   
++---.vscode
+¦       settings.json
+¦       
++---backend
+¦   ¦   .gitattributes
+¦   ¦   .gitignore
+¦   ¦   HELP.md
+¦   ¦   mvnw
+¦   ¦   mvnw.cmd
+¦   ¦   pom.xml
+¦   ¦   run-spring-boot.bat
+¦   ¦   
+¦   +---.idea
+¦   ¦   ¦   .gitignore
+¦   ¦   ¦   compiler.xml
+¦   ¦   ¦   dataSources.local.xml
+¦   ¦   ¦   dataSources.xml
+¦   ¦   ¦   encodings.xml
+¦   ¦   ¦   jarRepositories.xml
+¦   ¦   ¦   misc.xml
+¦   ¦   ¦   vcs.xml
+¦   ¦   ¦   workspace.xml
+¦   ¦   ¦   
+¦   ¦   +---dataSources
+¦   ¦       ¦   53bb0c67-5959-403d-ad3b-91e793f36f6b.xml
+¦   ¦       ¦   
+¦   ¦       +---53bb0c67-5959-403d-ad3b-91e793f36f6b
+¦   ¦           +---storage_v2
+¦   ¦               +---_src_
+¦   ¦                   +---schema
+¦   ¦                           information_schema.FNRwLQ.meta
+¦   ¦                           mysql.osA4Bg.meta
+¦   ¦                           performance_schema.kIw0nw.meta
+¦   ¦                           sys.zb4BAA.meta
+¦   ¦                           
+¦   +---.mvn
+¦   ¦   +---wrapper
+¦   ¦           maven-wrapper.properties
+¦   ¦           
+¦   +---src
+¦   ¦   +---main
+¦   ¦   ¦   +---java
+¦   ¦   ¦   ¦   +---com
+¦   ¦   ¦   ¦       +---CinemaGO
+¦   ¦   ¦   ¦           +---backend
+¦   ¦   ¦   ¦               ¦   BackendApplication.java
+¦   ¦   ¦   ¦               ¦   
+¦   ¦   ¦   ¦               +---config
+¦   ¦   ¦   ¦               ¦       SecurityConfig.java
+¦   ¦   ¦   ¦               ¦       
+¦   ¦   ¦   ¦               +---controllers
+¦   ¦   ¦   ¦               ¦       AuthController.java
+¦   ¦   ¦   ¦               ¦       MovieController.java
+¦   ¦   ¦   ¦               ¦       
+¦   ¦   ¦   ¦               +---entities
+¦   ¦   ¦   ¦               ¦       Movie.java
+¦   ¦   ¦   ¦               ¦       Roles.java
+¦   ¦   ¦   ¦               ¦       User.java
+¦   ¦   ¦   ¦               ¦       
+¦   ¦   ¦   ¦               +---repositories
+¦   ¦   ¦   ¦                       MovieRepository.java
+¦   ¦   ¦   ¦                       UserRepository.java
+¦   ¦   ¦   ¦                       
+¦   ¦   ¦   +---resources
+¦   ¦   ¦       ¦   application.properties
+¦   ¦   ¦       ¦   
+¦   ¦   ¦       +---static
+¦   ¦   ¦       +---templates
+¦   ¦   +---test
+¦   ¦       +---java
+¦   ¦           +---com
+¦   ¦               +---CinemaGO
+¦   ¦                   +---backend
+¦   ¦                           BackendApplicationTests.java
+¦   ¦                           
+¦   +---target
+¦       ¦   backend-0.0.1-SNAPSHOT.jar
+¦       ¦   backend-0.0.1-SNAPSHOT.jar.original
+¦       ¦   
+¦       +---classes
+¦       ¦   ¦   application.properties
+¦       ¦   ¦   
+¦       ¦   +---com
+¦       ¦       +---CinemaGO
+¦       ¦           +---backend
+¦       ¦               ¦   BackendApplication.class
+¦       ¦               ¦   
+¦       ¦               +---config
+¦       ¦               ¦       SecurityConfig.class
+¦       ¦               ¦       
+¦       ¦               +---controllers
+¦       ¦               ¦       AuthController$LoginRequest.class
+¦       ¦               ¦       AuthController$RegistrationRequest.class
+¦       ¦               ¦       AuthController.class
+¦       ¦               ¦       MovieController.class
+¦       ¦               ¦       
+¦       ¦               +---entities
+¦       ¦               ¦       Movie.class
+¦       ¦               ¦       Roles.class
+¦       ¦               ¦       STATUS.class
+¦       ¦               ¦       User.class
+¦       ¦               ¦       
+¦       ¦               +---repositories
+¦       ¦                       MovieRepository.class
+¦       ¦                       UserRepository.class
+¦       ¦                       
+¦       +---generated-sources
+¦       ¦   +---annotations
+¦       +---generated-test-sources
+¦       ¦   +---test-annotations
+¦       +---maven-archiver
+¦       ¦       pom.properties
+¦       ¦       
+¦       +---maven-status
+¦       ¦   +---maven-compiler-plugin
+¦       ¦       +---compile
+¦       ¦       ¦   +---default-compile
+¦       ¦       ¦           createdFiles.lst
+¦       ¦       ¦           inputFiles.lst
+¦       ¦       ¦           
+¦       ¦       +---testCompile
+¦       ¦           +---default-testCompile
+¦       ¦                   createdFiles.lst
+¦       ¦                   inputFiles.lst
+¦       ¦                   
+¦       +---surefire-reports
+¦       ¦       com.CinemaGO.backend.BackendApplicationTests.txt
+¦       ¦       TEST-com.CinemaGO.backend.BackendApplicationTests.xml
+¦       ¦       
+¦       +---test-classes
+¦           +---com
+¦               +---CinemaGO
+¦                   +---backend
+¦                           BackendApplicationTests.class
+¦                           
++---frontend
+    +---assets
+    ¦   ¦   background.jpg
+    ¦   ¦   favicon-32x32.png
+    ¦   ¦   
+    ¦   +---Banner
+    ¦   ¦       DiaDao.jpg
+    ¦   ¦       phim-hay-thang-4.png
+    ¦   ¦       TimXac.jpg
+    ¦   ¦       
+    ¦   +---Poster
+    ¦           am-duong-lo.png
+    ¦           cuoc-xe-kinh-hoang.jpeg
+    ¦           dia-dao-cu-chi_1.jpeg
+    ¦           giai-cuu-quan-su.jpeg
+    ¦           huyet-an-truy-hanh_1.jpeg
+    ¦           nang-bach-tuyet.png
+    ¦           nghe-sieu-kho-noi-poster.jpeg
+    ¦           poster-nha-ga-ma-cho.jpeg
+    ¦           quy-nhap-trang-poster.jpeg
+    ¦           thieu-nu-anh-trang.jpeg
+    ¦           
+    +---scripts
+    ¦       router copy.js
+    ¦       router.js
+    ¦       script.js
+    ¦       
+    +---styles
+    ¦       style.css
+    ¦       
+    +---template
+            404.html
+            home.html
+            login.html
+            movies-list.html
+            register.html
+            
