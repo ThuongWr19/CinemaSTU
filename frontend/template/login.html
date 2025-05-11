@@ -35,20 +35,28 @@
         const password = document.getElementById("password").value;
 
         try {
+            console.log("Sending login request for:", username);
+
             const response = await fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Origin": "http://127.0.0.1:5501" // Ensure origin header is sent
                 },
+                credentials: 'include', // Important for CORS with credentials
                 body: JSON.stringify({
                     username: username,
                     password: password
                 })
             });
 
-            const data = await response.json();
+            console.log("Response status:", response.status);
 
+            // Handle the response properly
             if (response.ok) {
+                const data = await response.json();
+                console.log("Login successful:", data);
+
                 // Lưu token JWT vào localStorage
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("username", data.username);
@@ -64,11 +72,25 @@
                 // Cập nhật UI để hiển thị trạng thái đăng nhập
                 updateLoginState();
             } else {
-                alert(data.message || "Đăng nhập thất bại!");
+                // Try to get more detailed error information
+                let errorMessage = "Đăng nhập thất bại!";
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorData || errorMessage;
+                } catch (e) {
+                    try {
+                        errorMessage = await response.text();
+                    } catch (textError) {
+                        console.error("Error parsing error response:", textError);
+                    }
+                }
+
+                console.error("Login failed:", errorMessage);
+                alert(errorMessage);
             }
         } catch (error) {
             console.error("Lỗi:", error);
-            alert("Kết nối đến server thất bại!");
+            alert("Kết nối đến server thất bại: " + error.message);
         }
     });
 </script>

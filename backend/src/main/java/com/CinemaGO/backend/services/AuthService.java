@@ -9,9 +9,11 @@ import com.CinemaGO.backend.repositories.UserRepository;
 import com.CinemaGO.backend.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,20 +33,44 @@ public class AuthService {
     private JwtTokenProvider tokenProvider;
 
     public AuthResponse login(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
+        try {
+            System.out.println("Login attempt for: " + loginRequest.getUsername());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken(authentication);
+            // Check if user exists before authentication
+            boolean userExists = userRepository.existsByUsername(loginRequest.getUsername());
+            System.out.println("User exists in database: " + userExists);
 
-        User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+            if (!userExists) {
+                throw new UsernameNotFoundException("User not found: " + loginRequest.getUsername());
+            }
 
-        return new AuthResponse(jwt, user.getUsername(), user.getFullName());
+            // Try to authenticate
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = tokenProvider.generateToken(authentication);
+
+            User user = userRepository.findByUsername(loginRequest.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            System.out.println("Authentication successful for: " + loginRequest.getUsername());
+            return new AuthResponse(jwt, user.getUsername(), user.getFullName());
+        } catch (UsernameNotFoundException e) {
+            System.out.println("Username not found: " + e.getMessage());
+            throw e;
+        } catch (BadCredentialsException e) {
+            System.out.println("Bad credentials for user: " + loginRequest.getUsername());
+            throw e;
+        } catch (Exception e) {
+            System.out.println("Authentication exception: " + e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public User register(RegisterRequest registerRequest) {

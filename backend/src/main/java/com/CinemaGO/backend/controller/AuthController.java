@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
 
     @Autowired
@@ -21,20 +23,59 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         try {
+            // Log the login attempt for debugging
+            System.out.println("Login attempt for username: " + loginRequest.getUsername());
+
+            // Validate the input
+            if (loginRequest.getUsername() == null || loginRequest.getUsername().isEmpty() ||
+                    loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "Tên đăng nhập và mật khẩu không được để trống");
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
+
             AuthResponse response = authService.login(loginRequest);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Đăng nhập thất bại: " + e.getMessage());
+            // Print the full stack trace for debugging
+            e.printStackTrace();
+
+            // Create a proper error response
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
         try {
+            // Log the registration attempt
+            System.out.println("Registration attempt for username: " + registerRequest.getUsername() +
+                    ", email: " + registerRequest.getEmail());
+
+            // Validate input
+            if (registerRequest.getUsername() == null || registerRequest.getUsername().isEmpty() ||
+                    registerRequest.getPassword() == null || registerRequest.getPassword().isEmpty() ||
+                    registerRequest.getEmail() == null || registerRequest.getEmail().isEmpty() ||
+                    registerRequest.getFullName() == null || registerRequest.getFullName().isEmpty()) {
+
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "Tất cả các trường thông tin đều là bắt buộc");
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
+
             User user = authService.register(registerRequest);
-            return ResponseEntity.ok("Đăng ký thành công");
+
+            Map<String, String> successResponse = new HashMap<>();
+            successResponse.put("message", "Đăng ký thành công");
+            return ResponseEntity.ok(successResponse);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Đăng ký thất bại: " + e.getMessage());
+            e.printStackTrace();
+
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Đăng ký thất bại: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 }
