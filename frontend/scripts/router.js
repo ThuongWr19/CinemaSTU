@@ -20,9 +20,13 @@ const appContainer = document.getElementById('app-container');
 // Load page content
 async function loadContent(url) {
     try {
+
+        const urlObj = new URL(url, window.location.origin); // Parse URL
+        const pathname = urlObj.pathname; // Lấy đường dẫn chính (ví dụ: /datve)
+        const queryParams = urlObj.searchParams; // Lấy tham số truy vấn (ví dụ: ?id=movies_id)
         // Get the route path or default to 404
         const route = routes[url] || routes['/404'];
-        
+        console.log('Loading route:', route);
         // Fetch the page content
         const response = await fetch(route);
         
@@ -37,7 +41,18 @@ async function loadContent(url) {
         
         // Execute any scripts in the loaded content
         executeScripts();
-        
+        // Nếu là trang đặt vé (/datve), xử lý thêm logic với tham số ID
+        if (pathname === '/datve') {
+            const movieId = queryParams.get('id'); // Lấy giá trị của tham số id
+            if (movieId) {
+                console.log(`Đang tải thông tin phim với ID: ${movieId}`);
+                // Ví dụ: Gọi API để lấy thông tin phim và hiển thị
+                loadMovieDetails(movieId);
+            } else {
+                console.warn('Không có ID phim trong URL.');
+            }
+        }
+
         // If on homepage, load movies
         if (url === '/' || url === '/home') {
             if (typeof getMovieList === 'function') {
@@ -58,6 +73,40 @@ async function loadContent(url) {
             loadContent('/404');
         } else {
             appContainer.innerHTML = '<div class="alert alert-danger">Không thể tải trang. Vui lòng thử lại sau.</div>';
+        }
+    }
+}
+
+async function loadMovieDetails(movieId) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/movies/${movieId}`);
+        if (!response.ok) {
+            throw new Error(`Phim với ID ${movieId} không tồn tại.`);
+        }
+
+        const movie = await response.json();
+
+        // Kiểm tra và cập nhật nội dung DOM
+        const movieTitle = document.getElementById('movie-title');
+        if (movieTitle) {
+            movieTitle.textContent = movie.title;
+        }
+
+        const movieDescription = document.getElementById('movie-description');
+        if (movieDescription) {
+            movieDescription.textContent = movie.description;
+        }
+
+        const moviePoster = document.getElementById('movie-poster');
+        if (moviePoster) {
+            moviePoster.src = movie.posterUrl || 'https://via.placeholder.com/300x450?text=No+Image';
+        }
+    } catch (error) {
+        console.error('Lỗi khi tải thông tin phim:', error);
+
+        const movieDetails = document.getElementById('movie-details');
+        if (movieDetails) {
+            movieDetails.innerHTML = '<p>Không thể tải thông tin phim. Vui lòng thử lại sau.</p>';
         }
     }
 }

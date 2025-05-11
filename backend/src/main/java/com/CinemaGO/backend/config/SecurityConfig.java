@@ -64,6 +64,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/movies/**").permitAll()
+                        .requestMatchers("/api/bokings/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(daoAuthenticationProvider()) // Đăng ký DaoAuthenticationProvider
