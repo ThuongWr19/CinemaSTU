@@ -9,18 +9,18 @@
 
 ### 🎞️ Danh sách phim
 - Xem thông tin chi tiết về các bộ phim đang chiếu.
-- Tìm kiếm phim theo tên một cách dễ dàng.
+- Tìm kiếm phim theo tên một cách dễ dàng. ###(Làm chưa tới)
 
 ### 🎟️ Đặt vé
 - Chọn ghế ngồi theo ý thích (nếu chưa bị "ai đó" đặt mất trước 🚀).
-- Thanh toán nhanh chóng và tiện lợi.
+- Thanh toán nhanh chóng và tiện lợi. ###(Làm chưa tới)
 
 ### 👤 Quản lý tài khoản
 - Đăng ký / Đăng nhập tài khoản.
 - Theo dõi lịch sử đặt vé cá nhân.
 
 ### 🏢 Tích hợp rạp chiếu
-- Cập nhật lịch chiếu từ các rạp phim nổi tiếng.
+- Cập nhật lịch chiếu từ các rạp phim nổi tiếng. ###(Làm chưa tới)
 
 ### 🖥️ Giao diện thân thiện
 - Thiết kế trực quan, dễ sử dụng kể cả với người mới.
@@ -40,7 +40,7 @@
 ## 🚀 Hướng dẫn chạy dự án
 
 ### 1. Yêu cầu hệ thống
-- **Java:** Phiên bản 11 hoặc mới hơn
+- **Java:** Phiên bản 17 hoặc mới hơn
 - **Node.js:** Phiên bản 16 hoặc mới hơn
 - **MySQL:** Đã cài đặt và đang chạy
 
