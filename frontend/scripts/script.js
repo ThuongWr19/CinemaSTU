@@ -87,13 +87,41 @@ async function getMovieList() {
 function youtubeUrlToEmbed(url, modalId) {
     try {
         const urlObj = new URL(url);
-        const videoId = urlObj.searchParams.get("v");
+
+        let videoId = urlObj.searchParams.get("v");
+
+        if (!videoId && urlObj.hostname === "youtu.be") {
+            videoId = urlObj.pathname.slice(1);
+        }
+
+        if (!videoId && urlObj.pathname.startsWith("/embed/")) {
+            videoId = urlObj.pathname.split("/embed/")[1];
+        }
+
         if (!videoId) {
             throw new Error("Invalid YouTube URL");
         }
+
+        // Gắn sự kiện đóng modal để dừng video
+        setTimeout(() => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.addEventListener('hidden.bs.modal', () => {
+                    const iframe = document.getElementById(`${modalId}-iframe`);
+                    if (iframe) {
+                        const src = iframe.src;
+                        iframe.src = src; // Reset lại src để ngừng phát
+                    }
+                });
+            }
+        }, 0); // Chờ modal được thêm vào DOM
+
         return `<iframe id="${modalId}-iframe" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
     } catch (error) {
         console.error("Error converting YouTube URL:", error);
         return null;
     }
 }
+
+
+

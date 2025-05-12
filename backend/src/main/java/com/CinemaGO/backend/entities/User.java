@@ -2,9 +2,12 @@ package com.CinemaGO.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "account")
 public class User {
@@ -12,13 +15,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String username;
-
     private String password;
-    private String email;
     private String fullName;
-    @Enumerated(EnumType.STRING)
-    private Roles role = Roles.USER;
+    private String email;
 
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Roles role;
 }

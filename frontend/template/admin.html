@@ -1,23 +1,11 @@
-<!-- admin.html -->
-<div class="container">
-    <h1>Admin Dashboard</h1>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
-                <a href="#users" class="list-group-item list-group-item-action">Quản lý người dùng</a>
-                <a href="#movies" class="list-group-item list-group-item-action">Quản lý phim</a>
-                <a href="#tickets" class="list-group-item list-group-item-action">Quản lý vé</a>
-            </div>
-        </div>
-        <div class="col-md-9" id="adminContent">
-            <!-- Nội dung dynamic -->
-        </div>
+<div class="container mt-4 bg-light">
+    <h2>🎛️ Bảng điều khiển Admin</h2>
+    <ul class="nav nav-tabs mt-4" id="admin-tabs">
+        <li class="nav-item"><a class="nav-link active" data-tab="movies">🎬 Quản lý phim</a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="bookings">🎟️ Quản lý vé</a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="users">👤 Quản lý người dùng</a></li>
+    </ul>
+    <div class="tab-content mt-3" id="admin-content">
+        <!-- Nội dung các tab -->
     </div>
 </div>
-<script>
-    // Kiểm tra quyền trước khi vào dashboard
-    if (localStorage.getItem('role') !== 'ADMIN') {
-        window.router.navigate('/');
-    }
-</script>

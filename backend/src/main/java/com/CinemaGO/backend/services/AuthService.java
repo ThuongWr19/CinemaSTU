@@ -4,7 +4,9 @@ package com.CinemaGO.backend.services;
 import com.CinemaGO.backend.dto.AuthResponse;
 import com.CinemaGO.backend.dto.LoginRequest;
 import com.CinemaGO.backend.dto.RegisterRequest;
+import com.CinemaGO.backend.entities.Roles;
 import com.CinemaGO.backend.entities.User;
+import com.CinemaGO.backend.repositories.RoleRepository;
 import com.CinemaGO.backend.repositories.UserRepository;
 import com.CinemaGO.backend.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class AuthService {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public AuthResponse login(LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
@@ -79,7 +84,8 @@ public class AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
 
-            return new AuthResponse(jwt, user.getUsername(), user.getFullName(), user.getRole());
+            return new AuthResponse(jwt, user.getUsername(), user.getFullName(), user.getRole().getName());
+
 
         } catch (UsernameNotFoundException e) {
             System.out.println("Username not found: " + e.getMessage());
@@ -111,6 +117,10 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));  // This is correct
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
+        Roles defaultRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("Vai trò USER không tồn tại"));
+
+        user.setRole(defaultRole);
 
         return userRepository.save(user);
     }
