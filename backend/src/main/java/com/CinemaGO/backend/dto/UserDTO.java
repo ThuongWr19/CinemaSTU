@@ -4,12 +4,13 @@ import com.CinemaGO.backend.entities.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
-public class AuthResponse {
-    private String token;
+public class UserDTO {
+    private Long id;
     private String username;
-    private String fullName;
-    private String role;
-
+    private String roles;
 }
+

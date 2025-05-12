@@ -1,5 +1,5 @@
 // Authentication utility functions
-const auth = {
+window.auth = {
     // Check if user is logged in
     isLoggedIn: function() {
         return localStorage.getItem('isLoggedIn') === 'true';
@@ -38,6 +38,10 @@ const auth = {
 // Update UI based on login state
 function updateLoginState() {
     const authButtons = document.querySelector('.navbar .collapse > div');
+    if (!authButtons) {
+        console.warn("Không tìm thấy phần tử navbar để cập nhật trạng thái đăng nhập.");
+        return;
+    }
     
     if (auth.isLoggedIn()) {
         const user = auth.getCurrentUser();
@@ -46,7 +50,7 @@ function updateLoginState() {
         // Thêm menu admin nếu có quyền
         if (user.role === 'ADMIN') {
             adminMenu = `
-                <li><a class="dropdown-item" href="/CinemaGo/admin">Dashboard Admin</a></li>
+                <li><a class="dropdown-item" href="/CinemaGo/admin/dashboard">Dashboard Admin</a></li>
             `;
         }
 
@@ -124,6 +128,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Export the auth module
-window.auth = auth;
 window.authFetch = authFetch;
 window.updateLoginState = updateLoginState;

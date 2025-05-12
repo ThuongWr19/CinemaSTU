@@ -29,4 +29,8 @@ public class Showtime {
     @Column(name = "available_seats", nullable = false)
     private int availableSeats;
 
+    @Column(name = "seat_map", columnDefinition = "TEXT")
+    private String seatMap; // JSON lưu sơ đồ ghế
+
+
 }
