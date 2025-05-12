@@ -46,7 +46,7 @@ function updateLoginState() {
         // Thêm menu admin nếu có quyền
         if (user.role === 'ADMIN') {
             adminMenu = `
-                <li><a class="dropdown-item" href="/admin">Dashboard Admin</a></li>
+                <li><a class="dropdown-item" href="/CinemaGo/admin">Dashboard Admin</a></li>
             `;
         }
 
@@ -58,8 +58,8 @@ function updateLoginState() {
                     <i class="bi bi-person-circle"></i> Tài khoản
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
-                    <li><a class="dropdown-item" href="/tickets">Vé đã đặt</a></li>
+                    <li><a class="dropdown-item" href="/CinemaGo/profile">Hồ sơ</a></li>
+                    <li><a class="dropdown-item" href="/CinemaGo/tickets">Vé đã đặt</a></li>
                     ${adminMenu}
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" id="logoutBtn">Đăng xuất</a></li>
@@ -74,13 +74,13 @@ function updateLoginState() {
         });
     } else {
         authButtons.innerHTML = `
-            <a class="btn btn-outline-dark me-3" href="/dangnhap" role="button">
+            <a class="btn btn-outline-dark me-3" href="/CinemaGo/dangnhap" role="button">
                 <i class="bi bi-person-circle"></i> Đăng nhập
             </a>
-            <a class="btn btn-outline-dark me-3" href="/dangky" role="button">
+            <a class="btn btn-outline-dark me-3" href="/CinemaGo/dangky" role="button">
                 <i class="bi bi-person-plus"></i> Đăng ký
             </a>
-            <a class="btn btn-outline-dark" href="/lienhe" role="button">
+            <a class="btn btn-outline-dark" href="/CinemaGo/lienhe" role="button">
                 <i class="bi bi-patch-question-fill"></i> Liên hệ
             </a>
         `;

@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /cinemago/
+
+  # Nếu file hoặc thư mục tồn tại, truy cập bình thường
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Nếu không, chuyển tất cả về index.html
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
