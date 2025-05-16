@@ -71,5 +71,4 @@ CinemaGO là một ứng dụng web quản lý rạp chiếu phim, cho phép ng�
 - Tạo Pull Request.
 
 ## Giấy phép
-Dự án này được phát hành dưới [MIT License](LICENSE).# CinemaGO
-# CinemaGo
+Dự án này được phát hành dưới [MIT License](LICENSE).

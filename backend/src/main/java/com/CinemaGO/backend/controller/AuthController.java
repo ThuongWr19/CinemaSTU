@@ -5,6 +5,8 @@ import com.CinemaGO.backend.dto.LoginRequest;
 import com.CinemaGO.backend.dto.RegisterRequest;
 import com.CinemaGO.backend.entities.User;
 import com.CinemaGO.backend.services.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +19,15 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     private AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         try {
-            // Log the login attempt for debugging
             System.out.println("Login attempt for username: " + loginRequest.getUsername());
 
-            // Validate the input
             if (loginRequest.getUsername() == null || loginRequest.getUsername().isEmpty() ||
                     loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
                 Map<String, String> errorResponse = new HashMap<>();
@@ -37,10 +38,8 @@ public class AuthController {
             AuthResponse response = authService.login(loginRequest);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            // Print the full stack trace for debugging
-            e.printStackTrace();
+            log.error("Error: ", e);
 
-            // Create a proper error response
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
@@ -50,11 +49,9 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
         try {
-            // Log the registration attempt
             System.out.println("Registration attempt for username: " + registerRequest.getUsername() +
                     ", email: " + registerRequest.getEmail());
 
-            // Validate input
             if (registerRequest.getUsername() == null || registerRequest.getUsername().isEmpty() ||
                     registerRequest.getPassword() == null || registerRequest.getPassword().isEmpty() ||
                     registerRequest.getEmail() == null || registerRequest.getEmail().isEmpty() ||
@@ -71,7 +68,7 @@ public class AuthController {
             successResponse.put("message", "Đăng ký thành công");
             return ResponseEntity.ok(successResponse);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error: ", e);
 
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Đăng ký thất bại: " + e.getMessage());

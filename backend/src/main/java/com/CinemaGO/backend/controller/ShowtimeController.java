@@ -4,6 +4,7 @@ import com.CinemaGO.backend.entities.Showtime;
 import com.CinemaGO.backend.repositories.ShowtimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +16,11 @@ public class ShowtimeController {
     @Autowired
     private ShowtimeRepository showtimeRepository;
 
-    // Lấy danh sách suất chiếu theo movieId
     @GetMapping("/by-movie/{movieId}")
     public List<Showtime> getShowtimesByMovie(@PathVariable Long movieId) {
         return showtimeRepository.findByMovieId(movieId);
     }
 
-    // (Tùy chọn) Lấy chi tiết suất chiếu
     @GetMapping("/{id}")
     public Showtime getShowtimeById(@PathVariable Long id) {
         return showtimeRepository.findById(id)
@@ -29,6 +28,7 @@ public class ShowtimeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createShowtime(@RequestBody Showtime showtime) {
         if (showtime.getMovie() == null || showtime.getShowtime() == null) {
             return ResponseEntity.badRequest().body("Thiếu thông tin suất chiếu");
@@ -53,7 +53,7 @@ public class ShowtimeController {
     private String generateDefaultSeatMap() {
         StringBuilder sb = new StringBuilder();
         char[] rows = {'A', 'B', 'C', 'D'}; // 4 hàng
-        int seatsPerRow = 10;
+        int seatsPerRow = 20;
 
         for (char row : rows) {
             for (int i = 1; i <= seatsPerRow; i++) {
@@ -61,8 +61,7 @@ public class ShowtimeController {
             }
         }
 
-        // Xoá dấu phẩy cuối
-        if (sb.length() > 0) {
+        if (!sb.isEmpty()) {
             sb.setLength(sb.length() - 1);
         }
 

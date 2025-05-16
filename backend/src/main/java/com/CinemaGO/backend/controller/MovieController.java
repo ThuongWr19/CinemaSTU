@@ -8,11 +8,11 @@ import com.CinemaGO.backend.entities.Showtime;
 import com.CinemaGO.backend.repositories.MovieRepository;
 import com.CinemaGO.backend.repositories.ShowtimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -42,5 +42,36 @@ public class MovieController {
         List<Showtime> showtime = showtimeRepository.findByMovieId(movieId);
         return ResponseEntity.ok(showtime);
     }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
+        return ResponseEntity.ok(movieRepository.save(movie));
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
+        Movie existing = movieRepository.findById(id).orElseThrow();
+        existing.setTitle(movie.getTitle());
+        existing.setPoster_url(movie.getPoster_url());
+        existing.setTrailer_url(movie.getTrailer_url());
+        existing.setDescription(movie.getDescription());
+        return ResponseEntity.ok(movieRepository.save(existing));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
+        try {
+            movieRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Không thể xoá phim vì đang có suất chiếu hoặc vé liên quan.");
+        }
+    }
+
+
 
 }

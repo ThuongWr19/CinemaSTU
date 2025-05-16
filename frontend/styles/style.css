@@ -8,33 +8,37 @@
   --desc: #06d6a0;
   --link: #ef476f;
   --button: #ffd166;
+  --success: #06d6a0;
+  --error: #ef476f;
+  --warning: #ffd166;
 }
 
 * {
   font-family: 'Be Vietnam Pro', sans-serif;
-}
-
-body{
-  background-image: url("/CinemaGo/frontend/assets/background.jpg");
-  background-size: 1200px 600px;
-}
-html, body {
-    height: 100%;
-    margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  background-image: url("/CinemaGo/frontend/assets/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  transition: opacity 0.3s ease;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 #app-container {
-    flex: 1 0 auto;
+  flex: 1 0 auto;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in forwards;
+  will-change: opacity;
 }
 
 footer {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .logo,
@@ -47,12 +51,31 @@ footer {
   font-size: 30px;
 }
 
-nav .nav-link {
-  display: inline-block;
+/* Parallax */
+.parallax-section {
+  background-image: url("/CinemaGo/frontend/assets/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  padding: 50px 0;
   position: relative;
-  color: inherit;
+  will-change: background-position;
 }
 
+/* Navbar */
+.navbar {
+  transition: background-color 0.2s ease, padding 0.2s ease;
+}
+.navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+nav .nav-link {
+  position: relative;
+  color: inherit;
+  transition: color 0.2s ease;
+}
 nav .nav-link::after {
   content: '';
   position: absolute;
@@ -63,21 +86,259 @@ nav .nav-link::after {
   background-color: var(--link);
   transform: scaleX(0);
   transform-origin: bottom center;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.2s ease-out;
 }
-
 nav .nav-link:hover {
   color: var(--link);
 }
-
 nav .nav-link:hover::after {
   transform: scaleX(1);
 }
 
+/* Carousel */
 .carousel-item {
-  transition: transform 1s ease !important;
+  transition: transform 0.5s ease, opacity 0.5s ease !important;
+}
+.carousel-item img {
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+.carousel-item.active img {
+  transform: scale(1.03);
 }
 
-a[role="button"] {
-  transition: background-color 0.2s ease !important;
+/* Card */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform, box-shadow;
+  position: relative;
+  z-index: 0;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.card img {
+  transition: transform 0.2s ease;
+}
+.card:hover img {
+  transform: scale(1.01);
+}
+.movie-card {
+  position: relative;
+  z-index: 0;
+}
+
+/* Form */
+.form-control {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-control:focus {
+  border-color: var(--title);
+  box-shadow: 0 0 6px rgba(17, 138, 178, 0.2);
+}
+.form-label {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+  transform: translateY(-1.5rem) scale(0.85);
+  color: var(--title);
+}
+
+/* Button */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.btn:hover {
+  transform: scale(1.03);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+  border-radius: 50%;
+}
+.btn:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+.btn.loading::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* Modal */
+.modal {
+  z-index: 1060 !important;
+}
+.modal-backdrop {
+  z-index: 1050 !important;
+}
+.modal-dialog {
+  max-width: 80vw;
+  margin: 1.75rem auto;
+}
+.modal-content {
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  will-change: transform, opacity;
+  width: 50%;
+  max-height: 90vh;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+}
+.modal-content-trailer {
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  will-change: transform, opacity;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+}
+.modal.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  background: #f8f9fa;
+}
+.modal-body {
+  padding: 10px;
+}
+.modal-content.border-success {
+  border: 2px solid var(--success);
+}
+.modal-content.border-danger {
+  border: 2px solid var(--error);
+}
+.modal-content.border-warning {
+  border: 2px solid var(--warning);
+}
+.modal-content.text-success {
+  color: var(--success);
+}
+.modal-content.text-danger {
+  color: var(--error);
+}
+.modal-content.text-warning {
+  color: var(--warning);
+}
+
+/* Trailer-specific modal */
+.trailer-modal .modal-dialog {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.trailer-modal.modal-sm {
+  max-width: 300px;
+  height: 50vh;
+}
+.trailer-modal.modal-md {
+  max-width: 500px;
+  height: 70vh;
+}
+.trailer-modal.modal-lg {
+  max-width: 800px;
+  height: 90vh;
+}
+.trailer-modal.modal-xl {
+  max-width: 1140px;
+  height: 100vh;
+}
+.trailer-modal .modal-content {
+  height: 100%;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.trailer-modal .modal-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.trailer-modal .modal-header {
+  flex-shrink: 0;
+}
+
+/* Trailer container */
+.trailer-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.trailer-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 95vw;
+    margin: 0.5rem auto;
+  }
+  .trailer-modal .modal-dialog {
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+  .trailer-modal.modal-sm {
+    max-width: 90vw;
+    height: 40vh;
+  }
+  .trailer-modal.modal-md {
+    max-width: 90vw;
+    height: 60vh;
+  }
+  .trailer-modal.modal-lg {
+    max-width: 90vw;
+    height: 80vh;
+  }
+  .trailer-modal.modal-xl {
+    max-width: 90vw;
+    height: 100vh;
+  }
+  .trailer-container {
+    height: 100%;
+  }
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

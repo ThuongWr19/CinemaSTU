@@ -1,98 +1,77 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Đăng nhập</h3>
-                </div>
-                <div class="card-body">
-                    <form id="loginForm">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Tên đăng nhập</label>
-                            <input type="text" class="form-control" id="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" required>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                        </div>
-                    </form>
-                    <div class="text-center mt-3">
-                        <p>Chưa có tài khoản? <a href="/CinemaGo/dangky">Đăng ký ngay</a></p>
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Đăng nhập</h2>
+                        <form id="login-form">
+                            <div class="mb-3 position-relative">
+                                <label for="username" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" required>
+                            </div>
+                            <div class="mb-3 position-relative">
+                                <label for="password" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" id="login-btn">Đăng nhập</button>
+                        </form>
+                        <p class="text-center mt-3"> Chưa có tài khoản? <a href="/CinemaGo/dangky">Đăng ký ngay</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 <script>
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const loginBtn = document.getElementById('login-btn');
+        loginBtn.classList.add('loading');
+        loginBtn.disabled = true;
 
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        const form = e.target;
+        const body = {
+            username: form.username.value,
+            password: form.password.value
+        };
 
         try {
-            console.log("Sending login request for:", username);
-
-            const response = await fetch("http://localhost:8080/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Origin": "http://127.0.0.1:5501" // Ensure origin header is sent
-                },
-                credentials: 'include', // Important for CORS with credentials
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
+            const response = await fetch('http://localhost:8080/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
             });
 
-            console.log("Response status:", response.status);
+            if (!response.ok) throw new Error(await response.text() || 'Đăng nhập thất bại.');
 
-            // Handle the response properly
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Login successful:", data);
+            const data = await response.json();
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('fullName', data.fullName);
+            localStorage.setItem('accessToken', data.token);
+            localStorage.setItem('role', data.role);
 
-                // Lưu token JWT vào localStorage
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("username", data.username);
-                localStorage.setItem("fullName", data.fullName);
-                localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("role", data.role);
-
-
-                // Hiển thị thông báo thành công
-                alert("Đăng nhập thành công!");
-
-                // Chuyển hướng về trang chủ
-                window.router.navigate("/");
-
-                // Cập nhật UI để hiển thị trạng thái đăng nhập
-                updateLoginState();
-            } else {
-                // Try to get more detailed error information
-                let errorMessage = "Đăng nhập thất bại!";
-                try {
-                    const errorData = await response.json();
-                    errorMessage = errorData.message || errorData || errorMessage;
-                } catch (e) {
-                    try {
-                        errorMessage = await response.text();
-                    } catch (textError) {
-                        console.error("Error parsing error response:", textError);
-                    }
-                }
-
-                console.error("Login failed:", errorMessage);
-                alert(errorMessage);
-            }
+            updateLoginState();
+            showModal({
+                title: 'Thành công',
+                message: 'Đăng nhập thành công!',
+                type: 'success',
+                autoClose: true,
+                size: 'md'
+            });
+            setTimeout(() => window.router.navigate('/'), 2000);
         } catch (error) {
-            console.error("Lỗi:", error);
-            alert("Kết nối đến server thất bại: " + error.message);
+            showModal({
+                title: 'Lỗi',
+                message: `Đăng nhập thất bại: ${error.message}`,
+                type: 'error',
+                size: 'md'
+            });
+        } finally {
+            loginBtn.classList.remove('loading');
+            loginBtn.disabled = false;
         }
     });
 </script>

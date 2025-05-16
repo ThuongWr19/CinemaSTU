@@ -9,6 +9,8 @@ import com.CinemaGO.backend.entities.User;
 import com.CinemaGO.backend.repositories.RoleRepository;
 import com.CinemaGO.backend.repositories.UserRepository;
 import com.CinemaGO.backend.security.JwtTokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -77,7 +80,7 @@ public class AuthService {
                 throw new RuntimeException("Tài khoản bị khóa", e);
             } catch (AuthenticationException e) {
                 System.err.println("Authentication failed for user: " + username + ": " + e.getMessage());
-                e.printStackTrace();
+                log.error("Error: ", e);
                 throw new RuntimeException("Đăng nhập thất bại", e);
             }
 
@@ -95,9 +98,10 @@ public class AuthService {
             throw e;
         } catch (Exception e) {
             System.err.println("Unexpected error during login: " + e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error: ", e);
             throw new RuntimeException("Lỗi không xác định", e);  //  Wrap and rethrow
         }
+
     }
 
     public User register(RegisterRequest registerRequest) {
@@ -114,10 +118,10 @@ public class AuthService {
         // Create new user
         User user = new User();
         user.setUsername(registerRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));  // This is correct
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
-        Roles defaultRole = roleRepository.findByName("USER")
+        Roles defaultRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Vai trò USER không tồn tại"));
 
         user.setRole(defaultRole);
