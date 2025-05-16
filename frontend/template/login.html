@@ -53,6 +53,7 @@
             localStorage.setItem('accessToken', data.token);
             localStorage.setItem('role', data.role);
 
+<<<<<<< HEAD
             updateLoginState();
             showModal({
                 title: 'Thành công',
@@ -62,6 +63,41 @@
                 size: 'md'
             });
             setTimeout(() => window.router.navigate('/'), 2000);
+=======
+                // Lưu token JWT vào localStorage
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("username", data.username);
+                localStorage.setItem("fullName", data.fullName);
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("role", data.role);
+
+
+                // Hiển thị thông báo thành công
+                alert("Đăng nhập thành công!");
+
+                // Chuyển hướng về trang chủ
+                window.router.navigate("/");
+
+                // Cập nhật UI để hiển thị trạng thái đăng nhập
+                updateLoginState();
+            } else {
+                // Try to get more detailed error information
+                let errorMessage = "Đăng nhập thất bại!";
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorData || errorMessage;
+                } catch (e) {
+                    try {
+                        errorMessage = await response.text();
+                    } catch (textError) {
+                        console.error("Error parsing error response:", textError);
+                    }
+                }
+
+                console.error("Login failed:", errorMessage);
+                alert(errorMessage);
+            }
+>>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
         } catch (error) {
             showModal({
                 title: 'Lỗi',

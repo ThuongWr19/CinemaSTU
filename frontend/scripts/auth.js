@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 window.auth = {
+=======
+// Authentication utility functions
+window.auth = {
+    // Check if user is logged in
+>>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
     isLoggedIn: function() {
         return localStorage.getItem('isLoggedIn') === 'true';
     },
@@ -64,12 +70,30 @@ function createLoggedOutHTML() {
 
 function updateLoginState() {
     const authButtons = document.querySelector('.navbar .collapse > div');
+<<<<<<< HEAD
     if (auth.isLoggedIn()) {
         authButtons.innerHTML = createLoggedInHTML(auth.getCurrentUser());
     } else {
         authButtons.innerHTML = createLoggedOutHTML();
     }
 }
+=======
+    if (!authButtons) {
+        console.warn("Không tìm thấy phần tử navbar để cập nhật trạng thái đăng nhập.");
+        return;
+    }
+    
+    if (auth.isLoggedIn()) {
+        const user = auth.getCurrentUser();
+        let adminMenu = ''; // Khai báo biến để build menu admin
+        
+        // Thêm menu admin nếu có quyền
+        if (user.role === 'ADMIN') {
+            adminMenu = `
+                <li><a class="dropdown-item" href="/CinemaGo/admin/dashboard">Dashboard Admin</a></li>
+            `;
+        }
+>>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
 
 async function authFetch(url, options = {}) {
     const token = auth.getToken();
@@ -216,6 +240,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+<<<<<<< HEAD
+=======
+// Export the auth module
+>>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
 window.authFetch = authFetch;
 window.updateLoginState = updateLoginState;
 window.showConfirmModal = showConfirmModal;

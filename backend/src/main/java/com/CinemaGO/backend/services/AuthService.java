@@ -121,7 +121,11 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
+<<<<<<< HEAD
         Roles defaultRole = roleRepository.findByName("ROLE_USER")
+=======
+        Roles defaultRole = roleRepository.findByName("USER")
+>>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
                 .orElseThrow(() -> new RuntimeException("Vai trò USER không tồn tại"));
 
         user.setRole(defaultRole);
