@@ -26,10 +26,6 @@
 - Thiết kế trực quan, dễ sử dụng kể cả với người mới.
 
 ---
-
-<<<<<<< HEAD
-## Giấy phép
-Dự án này được phát hành dưới [MIT License](LICENSE).
 =======
 ## 🛠️ Công nghệ sử dụng
 
@@ -66,6 +62,7 @@ spring.datasource.password=<mật khẩu>
 ```
 
 #### ▶️ Bước 3: Chạy back-end
+Vào folder backend chạy file .bat
 ```bash
 ./mvnw spring-boot:run
 ```
@@ -82,17 +79,7 @@ npm start
 
 ---
 
-## 📬 Đóng góp
-
-Nếu bạn muốn cải thiện ứng dụng này, hãy **tạo Pull Request** hoặc **mở Issue** để cùng thảo luận và phát triển nhé! 💬
-
----
-
 ## 📜 Giấy phép
 
 Dự án sử dụng **giấy phép MIT**. Bạn có thể thoải mái sử dụng, chỉnh sửa và phát triển thêm theo nhu cầu.
 
----
-
-🎉 **Chúc bạn có trải nghiệm tuyệt vời cùng CinemaGo!**
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
