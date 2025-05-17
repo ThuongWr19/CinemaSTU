@@ -1,6 +1,5 @@
 @echo off
 chcp 65001
-cd ./backend
 
 echo ================================
 echo 🚀 Đang chạy Spring Boot...
