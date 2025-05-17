@@ -27,20 +27,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 new SimpleGrantedAuthority(user.getRole().getName()) // name = "ROLE_ADMIN"
         );
 
-<<<<<<< HEAD
-=======
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
                 authorities
         );
     }
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d

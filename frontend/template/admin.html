@@ -1,28 +1,16 @@
-<<<<<<< HEAD
-<div class="container my-5">
-    <h2 class="mb-4" style="color: var(--title);">🎛️ Bảng điều khiển Admin</h2>
-    <ul class="nav nav-tabs mb-4" id="admin-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" href="#" data-tab="movies" style="color: var(--link);">🎬 Quản lý phim</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-tab="bookings" style="color: var(--link);">🎟️ Quản lý vé</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-tab="users" style="color: var(--link);">👤 Quản lý người dùng</a>
-        </li>
-    </ul>
-    <div id="admin-content">
-=======
-<div class="container mt-4 bg-light">
-    <h2>🎛️ Bảng điều khiển Admin</h2>
-    <ul class="nav nav-tabs mt-4" id="admin-tabs">
-        <li class="nav-item"><a class="nav-link active" data-tab="movies">🎬 Quản lý phim</a></li>
-        <li class="nav-item"><a class="nav-link" data-tab="bookings">🎟️ Quản lý vé</a></li>
-        <li class="nav-item"><a class="nav-link" data-tab="users">👤 Quản lý người dùng</a></li>
-    </ul>
-    <div class="tab-content mt-3" id="admin-content">
-        <!-- Nội dung các tab -->
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
-    </div>
+<ul class="nav nav-tabs my-3 container" style="background-color: var(--border);" id="admin-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" id="movies-tab" data-bs-toggle="tab" data-tab="movies" href="#movies-content" role="tab" aria-controls="movies-content" aria-selected="true">🎬 Quản lý phim</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-tab="bookings" href="#bookings-content" role="tab" aria-controls="bookings-content" aria-selected="false">🎟️ Quản lý vé</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="users-tab" data-bs-toggle="tab" data-tab="users" href="#users-content" role="tab" aria-controls="users-content" aria-selected="false">👤 Quản lý người dùng</a>
+    </li>
+</ul>
+<div class="tab-content container bg-light" id="admin-content">
+    <div class="tab-pane fade show active" id="movies-content" role="tabpanel" aria-labelledby="movies-tab"></div>
+    <div class="tab-pane fade" id="bookings-content" role="tabpanel" aria-labelledby="bookings-tab"></div>
+    <div class="tab-pane fade" id="users-content" role="tabpanel" aria-labelledby="users-tab"></div>
 </div>

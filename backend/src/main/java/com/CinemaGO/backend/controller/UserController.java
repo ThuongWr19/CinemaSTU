@@ -5,20 +5,12 @@ import com.CinemaGO.backend.entities.Roles;
 import com.CinemaGO.backend.entities.User;
 import com.CinemaGO.backend.repositories.RoleRepository;
 import com.CinemaGO.backend.repositories.UserRepository;
-<<<<<<< HEAD
-=======
-import org.apache.catalina.Role;
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-<<<<<<< HEAD
-=======
-import java.util.stream.Collectors;
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
 
 @RestController
 @RequestMapping("/api")

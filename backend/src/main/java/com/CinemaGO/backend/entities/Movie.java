@@ -40,4 +40,3 @@ public class Movie {
     @JsonIgnore
     private List<Booking> bookings;
 }
-

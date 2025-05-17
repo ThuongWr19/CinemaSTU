@@ -10,26 +10,18 @@ import com.CinemaGO.backend.repositories.BookingRepository;
 import com.CinemaGO.backend.repositories.MovieRepository;
 import com.CinemaGO.backend.repositories.ShowtimeRepository;
 import com.CinemaGO.backend.repositories.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-<<<<<<< HEAD
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
-=======
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -47,19 +39,16 @@ public class BookingController {
     @Autowired
     private UserRepository userRepository;
 
-<<<<<<< HEAD
-    @PostMapping
-    @Transactional
-=======
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @PostMapping
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
+    @Transactional
     public ResponseEntity<?> bookTickets(@RequestBody BookingRequest request) {
         Optional<Movie> optionalMovie = movieRepository.findById(request.getMovieId());
         Optional<Showtime> optionalShowtime = showtimeRepository.findById(request.getShowtimeId());
 
         if (optionalMovie.isEmpty() || optionalShowtime.isEmpty()) {
-<<<<<<< HEAD
             return ResponseEntity.badRequest().body(Map.of("error", "Phim hoặc suất chiếu không tồn tại."));
         }
 
@@ -101,68 +90,17 @@ public class BookingController {
             ));
         }
 
-=======
-            return ResponseEntity.badRequest().body(Map.of("message", "Phim hoặc suất chiếu không tồn tại."));
-        }
-
-        Showtime showtime = optionalShowtime.get();
-
-        // Validate seatMap
-        String seatMap = showtime.getSeatMap(); // ví dụ: "A1:available,A2:booked,B1:available"
-        if (seatMap == null || seatMap.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Không có sơ đồ ghế."));
-        }
-
-        List<String> seatList = new ArrayList<>(Arrays.asList(seatMap.split(",")));
-        Set<String> selectedSeats = new HashSet<>(request.getSelectedSeats());
-
-        List<String> updatedMap = new ArrayList<>();
-        Set<String> alreadyBooked = new HashSet<>();
-
-        for (String entry : seatList) {
-            String[] parts = entry.split(":");
-            String code = parts[0];
-            String status = parts.length > 1 ? parts[1] : "available";
-
-            if (selectedSeats.contains(code)) {
-                if ("booked".equalsIgnoreCase(status)) {
-                    alreadyBooked.add(code); // ghế đã được đặt trước đó
-                } else {
-                    updatedMap.add(code + ":booked");
-                }
-            } else {
-                updatedMap.add(entry);
-            }
-        }
-
-        if (!alreadyBooked.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "message", "Một số ghế đã được đặt: " + String.join(", ", alreadyBooked)
-            ));
-        }
-
-        // Cập nhật lại seatMap trong showtime
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
         showtime.setSeatMap(String.join(",", updatedMap));
         showtime.setAvailableSeats(showtime.getAvailableSeats() - request.getSelectedSeats().size());
         showtimeRepository.save(showtime);
 
-<<<<<<< HEAD
         String bookingCode = "BK" + System.currentTimeMillis();
-=======
-        // Tạo mã booking
-        String bookingCode = "BK" + System.currentTimeMillis();
-
-
-
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
         Booking booking = new Booking();
         booking.setMovie(optionalMovie.get());
         booking.setShowtime(showtime);
         booking.setQuantity(request.getQuantity());
         booking.setBookingCode(bookingCode);
 
-<<<<<<< HEAD
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản"));
@@ -182,28 +120,6 @@ public class BookingController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại"));
-=======
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName(); // lấy username từ token/session
-
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản"));
-
-        booking.setUser(user); // ✅ liên kết với account_id
-
-        bookingRepository.save(booking);
-
-
-
-
-
-
-        return ResponseEntity.ok(Map.of(
-                "message", "Đặt vé thành công",
-                "bookingCode", bookingCode
-        ));
-
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
 
         List<Booking> bookings = bookingRepository.findByUser(user);
         return ResponseEntity.ok(bookings);
@@ -218,10 +134,13 @@ public class BookingController {
                 b.getBookingCode(),
                 b.getUser().getUsername(),
                 b.getMovie().getTitle(),
+                b.getMovie().getId(),
                 b.getShowtime().getTheaterName(),
                 b.getShowtime().getShowtime().toString(),
+                b.getShowtime().getId(),
                 b.getQuantity(),
-                b.getCreatedAt().toString()
+                b.getCreatedAt().toString(),
+                b.getSelectedSeats()
         )).toList();
         return ResponseEntity.ok(result);
     }
@@ -235,19 +154,41 @@ public class BookingController {
 
         Showtime showtime = booking.getShowtime();
         String seatMap = showtime.getSeatMap();
-        if (seatMap != null && !seatMap.isBlank()) {
-            List<String> seatList = new ArrayList<>(Arrays.asList(seatMap.split(",")));
-            List<String> updatedMap = seatList.stream()
-                    .map(entry -> {
-                        String[] parts = entry.split(":");
-                        String code = parts[0];
-                        return parts[1].equalsIgnoreCase("booked") ? code + ":available" : entry;
-                    })
-                    .collect(Collectors.toList());
-            showtime.setSeatMap(String.join(",", updatedMap));
-            showtime.setAvailableSeats(showtime.getAvailableSeats() + booking.getQuantity());
-            showtimeRepository.save(showtime);
+        String selectedSeatsJson = booking.getSelectedSeats(); // Get selected seats from booking
+
+        if (seatMap == null || seatMap.isBlank() || selectedSeatsJson == null) {
+            bookingRepository.deleteById(id);
+            return ResponseEntity.ok(Map.of("message", "Xóa vé thành công"));
         }
+
+        // Parse selectedSeats (assuming it's a JSON array, e.g., "[\"A1\",\"A2\"]")
+        List<String> selectedSeats;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            selectedSeats = mapper.readValue(selectedSeatsJson, new TypeReference<List<String>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Lỗi khi phân tích selectedSeats: " + e.getMessage());
+        }
+
+        List<String> seatList = new ArrayList<>(Arrays.asList(seatMap.split(",")));
+        List<String> updatedMap = seatList.stream()
+                .map(entry -> {
+                    String[] parts = entry.split(":");
+                    String code = parts[0];
+                    String status = parts.length > 1 ? parts[1] : "available";
+                    return selectedSeats.contains(code) && status.equalsIgnoreCase("booked")
+                            ? code + ":available"
+                            : entry;
+                })
+                .collect(Collectors.toList());
+
+        showtime.setSeatMap(String.join(",", updatedMap));
+        // Count actual available seats
+        long availableCount = updatedMap.stream()
+                .filter(entry -> entry.endsWith(":available"))
+                .count();
+        showtime.setAvailableSeats((int) availableCount);
+        showtimeRepository.save(showtime);
 
         bookingRepository.deleteById(id);
         return ResponseEntity.ok(Map.of("message", "Xóa vé thành công"));
@@ -257,8 +198,12 @@ public class BookingController {
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public ResponseEntity<?> updateBooking(@PathVariable Long id, @RequestBody BookingRequest request) {
+        System.out.println("Updating booking with ID: " + id);
+
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vé không tồn tại"));
+        Long originalId = booking.getId();
+        System.out.println("Original booking ID: " + originalId);
 
         Optional<Showtime> optionalShowtime = showtimeRepository.findById(request.getShowtimeId());
         if (optionalShowtime.isEmpty()) {
@@ -272,17 +217,28 @@ public class BookingController {
         // Release seats from old showtime
         Showtime oldShowtime = booking.getShowtime();
         String oldSeatMap = oldShowtime.getSeatMap();
-        if (oldSeatMap != null && !oldSeatMap.isBlank()) {
+        if (oldSeatMap != null && !oldSeatMap.isBlank() && booking.getSelectedSeats() != null) {
+            List<String> selectedSeats;
+            try {
+                selectedSeats = objectMapper.readValue(booking.getSelectedSeats(), new TypeReference<List<String>>() {});
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Lỗi khi phân tích selectedSeats: " + e.getMessage());
+            }
+
             List<String> oldSeatList = new ArrayList<>(Arrays.asList(oldSeatMap.split(",")));
             List<String> updatedOldMap = oldSeatList.stream()
                     .map(entry -> {
                         String[] parts = entry.split(":");
                         String code = parts[0];
-                        return parts[1].equalsIgnoreCase("booked") ? code + ":available" : entry;
+                        String status = parts.length > 1 ? parts[1] : "available";
+                        return selectedSeats.contains(code) && status.equalsIgnoreCase("booked") ? code + ":available" : entry;
                     })
                     .collect(Collectors.toList());
             oldShowtime.setSeatMap(String.join(",", updatedOldMap));
-            oldShowtime.setAvailableSeats(oldShowtime.getAvailableSeats() + booking.getQuantity());
+            long availableCount = updatedOldMap.stream()
+                    .filter(entry -> entry.endsWith(":available"))
+                    .count();
+            oldShowtime.setAvailableSeats((int) availableCount);
             showtimeRepository.save(oldShowtime);
         }
 
@@ -325,7 +281,14 @@ public class BookingController {
 
         booking.setShowtime(newShowtime);
         booking.setQuantity(request.getQuantity());
-        bookingRepository.save(booking);
+        try {
+            booking.setSelectedSeats(objectMapper.writeValueAsString(request.getSelectedSeats()));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Lỗi khi chuyển đổi selectedSeats thành JSON: " + e.getMessage());
+        }
+        Booking savedBooking = bookingRepository.save(booking);
+
+        System.out.println("Saved booking ID: " + savedBooking.getId());
 
         return ResponseEntity.ok(Map.of("message", "Cập nhật vé thành công"));
     }
@@ -341,49 +304,15 @@ public class BookingController {
                 b.getBookingCode(),
                 b.getUser().getUsername(),
                 b.getMovie().getTitle(),
+                b.getMovie().getId(),
                 b.getShowtime().getTheaterName(),
                 b.getShowtime().getShowtime().toString(),
+                b.getShowtime().getId(),
                 b.getQuantity(),
-                b.getCreatedAt().toString()
+                b.getCreatedAt().toString(),
+                b.getSelectedSeats()
         );
 
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/me")
-    public ResponseEntity<?> getMyBookings(@AuthenticationPrincipal UserDetails userDetails) {
-        if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Chưa đăng nhập");
-        }
-
-        String username = userDetails.getUsername();
-        Optional<User> accountOpt = userRepository.findByUsername(username);
-
-        if (accountOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tài khoản không tồn tại");
-        }
-
-        List<Booking> bookings = bookingRepository.findByUser(accountOpt.get());
-
-        return ResponseEntity.ok(bookings);
-    }
-
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAllBookings() {
-        List<Booking> bookings = bookingRepository.findAll();
-
-        List<BookingResponse> result = bookings.stream().map(b -> new BookingResponse(
-                b.getBookingCode(),
-                b.getUser().getUsername(),
-                b.getMovie().getTitle(),
-                b.getShowtime().getTheaterName(),
-                b.getShowtime().getShowtime().toString(),
-                b.getQuantity()
-        )).toList();
-
-        return ResponseEntity.ok(result);
-    }
-
-
 }

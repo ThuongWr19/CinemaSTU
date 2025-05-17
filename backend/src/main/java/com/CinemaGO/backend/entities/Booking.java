@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "booking")
 public class Booking {
-    // Getters and Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,4 +50,6 @@ public class Booking {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Column(name = "selected_seats")
+    private String selectedSeats; // Lưu dưới dạng chuỗi JSON
 }

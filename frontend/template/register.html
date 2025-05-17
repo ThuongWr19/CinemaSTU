@@ -48,24 +48,10 @@
         };
 
         try {
-<<<<<<< HEAD
             const response = await fetch('http://localhost:8080/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
-=======
-            const response = await fetch("http://localhost:8080/api/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-            },
-                body: JSON.stringify({
-                    username: username,
-                    email: email,
-                    password: password,
-                    fullName: fullName
-                })
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
             });
 
             if (!response.ok) throw new Error(await response.text() || 'Đăng ký thất bại.');

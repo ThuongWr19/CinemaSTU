@@ -180,57 +180,6 @@ function loadAdminMovies(container) {
     });
 }
 
-function showBookingForm(container, bookingId) {
-  fetch(`http://localhost:8080/api/bookings/${bookingId}`)
-    .then(res => {
-      if (!res.ok) throw new Error("Không thể tải thông tin vé");
-      return res.json();
-    })
-    .then(b => {
-      container.innerHTML = `
-        <h4>✏️ Sửa vé</h4>
-        <form id="edit-booking-form">
-          <label>Mã vé:</label>
-          <input class="form-control mb-2" value="${b.bookingCode}" disabled>
-
-          <label>Tên phim:</label>
-          <input class="form-control mb-2" name="movieTitle" value="${b.movieTitle}" required>
-
-          <label>Rạp chiếu:</label>
-          <input class="form-control mb-2" name="theaterName" value="${b.theaterName}" required>
-
-          <label>Thời gian chiếu:</label>
-          <input class="form-control mb-2" name="showtime" type="datetime-local" value="${b.showtime.replace(' ', 'T')}" required>
-
-          <label>Số lượng vé:</label>
-          <input class="form-control mb-2" name="quantity" type="number" value="${b.quantity}" min="1">
-
-          <button class="btn btn-success">Lưu</button>
-        </form>
-      `;
-
-      document.getElementById("edit-booking-form").onsubmit = async (e) => {
-        e.preventDefault();
-        const form = e.target;
-
-        await authFetch(`http://localhost:8080/api/bookings/${bookingId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            quantity: parseInt(form.quantity.value, 10)
-            // TODO: Thêm sửa movie/showtime nếu backend hỗ trợ
-          })
-        });
-
-        loadAdminBookings(container);
-      };
-    })
-    .catch(err => {
-      alert("Lỗi: " + err.message);
-    });
-}
-
-
 function showMovieForm(container, movieId = null) {
   let movie = { title: "", description: "", release_date: "", poster_url: "", trailer_url: "", status: "COMING_SOON" };
 

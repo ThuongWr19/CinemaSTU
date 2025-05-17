@@ -30,6 +30,4 @@ public class Showtime {
 
     @Column(name = "seat_map", columnDefinition = "TEXT")
     private String seatMap; // JSON lưu sơ đồ ghế
-
-
 }
