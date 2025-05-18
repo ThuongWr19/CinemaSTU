@@ -1,5 +1,5 @@
 
-# 🎬 CinemaGo
+# 🎬 **CinemaSTU**
 
 **CinemaGo** là ứng dụng đặt vé xem phim trực tuyến, giúp bạn dễ dàng chọn phim yêu thích, đặt vé và tận hưởng trải nghiệm rạp chiếu mà không cần phải xếp hàng chờ đợi. 🍿
 
@@ -9,24 +9,18 @@
 
 ### 🎞️ Danh sách phim
 - Xem thông tin chi tiết về các bộ phim đang chiếu.
-- Tìm kiếm phim theo tên một cách dễ dàng. ###(Làm chưa tới)
 
 ### 🎟️ Đặt vé
 - Chọn ghế ngồi theo ý thích (nếu chưa bị "ai đó" đặt mất trước 🚀).
-- Thanh toán nhanh chóng và tiện lợi. ###(Làm chưa tới)
 
 ### 👤 Quản lý tài khoản
 - Đăng ký / Đăng nhập tài khoản.
 - Theo dõi lịch sử đặt vé cá nhân.
 
-### 🏢 Tích hợp rạp chiếu
-- Cập nhật lịch chiếu từ các rạp phim nổi tiếng. ###(Làm chưa tới)
-
 ### 🖥️ Giao diện thân thiện
 - Thiết kế trực quan, dễ sử dụng kể cả với người mới.
 
 ---
-=======
 ## 🛠️ Công nghệ sử dụng
 
 | Thành phần     | Công nghệ              |
@@ -48,7 +42,7 @@
 
 #### 📥 Bước 1: Clone repository
 ```bash
-git clone https://github.com/ThuongWr19/CinemaGo.git
+git clone https://github.com/ThuongWr19/CinemaSTU.git
 cd CinemaGo
 ```
 
@@ -56,7 +50,7 @@ cd CinemaGo
 - Mở file `application.properties` tại `src/main/resources`.
 - Cập nhật thông tin kết nối MySQL:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/cinema_go
+spring.datasource.url=jdbc:mysql://localhost:3306/cinemastu
 spring.datasource.username=<tên người dùng>
 spring.datasource.password=<mật khẩu>
 ```
