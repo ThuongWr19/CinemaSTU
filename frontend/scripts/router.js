@@ -1,4 +1,4 @@
-window.BASE_PATH = '/CinemaGo';
+window.BASE_PATH = '/CinemaSTU';
 
 const routes = {
     '/': '/frontend/template/home.html',
