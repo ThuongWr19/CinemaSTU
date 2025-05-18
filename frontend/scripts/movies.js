@@ -80,7 +80,7 @@ function createMovieCard(movie, size = 'md') {
             <div class="card text-center h-100">
                 <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                     <img src="${movie.poster_url}" class="img-thumbnail rounded-4" style="height: 500px;"
-                         onerror="this.src='/CinemaGo/frontend/assets/favicon-32x32.png'"/>
+                         onerror="this.src='/CinemaSTU/frontend/assets/favicon-32x32.png'"/>
                     <a href="#"><div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div></a>
                 </div>
                 <div class="card-body">
