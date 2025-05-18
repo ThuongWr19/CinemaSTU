@@ -28,7 +28,7 @@ window.auth = {
 
 function createLoggedInHTML(user) {
     const adminMenu = user.role === 'ROLE_ADMIN' ? `
-        <li><a class="dropdown-item" href="/CinemaGo/admin/dashboard">Dashboard Admin</a></li>
+        <li><a class="dropdown-item" href="/CinemaSTU/admin/dashboard">Dashboard Admin</a></li>
     ` : '';
     
     return `
@@ -38,8 +38,8 @@ function createLoggedInHTML(user) {
                 <i class="bi bi-person-circle"></i> Tài khoản
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="/CinemaGo/profile">Hồ sơ</a></li>
-                <li><a class="dropdown-item" href="/CinemaGo/tickets">Vé đã đặt</a></li>
+                <li><a class="dropdown-item" href="/CinemaSTU/profile">Hồ sơ</a></li>
+                <li><a class="dropdown-item" href="/CinemaSTU/tickets">Vé đã đặt</a></li>
                 ${adminMenu}
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" id="logoutBtn">Đăng xuất</a></li>
@@ -50,13 +50,13 @@ function createLoggedInHTML(user) {
 
 function createLoggedOutHTML() {
     return `
-        <a class="btn btn-outline-dark me-3" href="/CinemaGo/dangnhap" role="button">
+        <a class="btn btn-outline-dark me-3" href="/CinemaSTU/dangnhap" role="button">
             <i class="bi bi-person-circle"></i> Đăng nhập
         </a>
-        <a class="btn btn-outline-dark me-3" href="/CinemaGo/dangky" role="button">
+        <a class="btn btn-outline-dark me-3" href="/CinemaSTU/dangky" role="button">
             <i class="bi bi-person-plus"></i> Đăng ký
         </a>
-        <a class="btn btn-outline-dark" href="/CinemaGo/lienhe" role="button">
+        <a class="btn btn-outline-dark" href="/CinemaSTU/lienhe" role="button">
             <i class="bi bi-patch-question-fill"></i> Liên hệ
         </a>
     `;
