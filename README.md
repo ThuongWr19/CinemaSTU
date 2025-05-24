@@ -63,13 +63,12 @@ Vào folder backend chạy file .bat
 
 #### 🌐 Bước 4: Chạy front-end
 ```bash
-cd frontend
-npm install
-npm start
+B1: Cài Wampserver, chạy wampserver, import file sql vào tên cinemastu
+B2: nhét folder CinemaSTU vào C:\wamp64\www\
 ```
 
 #### 🔗 Bước 5: Truy cập ứng dụng
-- Mở trình duyệt và truy cập: [http://localhost:3000](http://localhost:3000) (hoặc cổng đã được cấu hình).
+- Mở trình duyệt và truy cập: [http://localhost/CinemaSTU](http://localhost/CinemaSTU).
 
 ---
 
