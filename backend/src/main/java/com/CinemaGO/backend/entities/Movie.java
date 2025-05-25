@@ -24,10 +24,16 @@ public class Movie {
     private Long id;
 
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Date release_date;
     private String poster_url;
     private String trailer_url;
+    private String director;
+    private String actors;
+    private Integer duration;
+    private String country;
+    private Float rating;
 
     @Enumerated(EnumType.STRING)
     private STATUS status;

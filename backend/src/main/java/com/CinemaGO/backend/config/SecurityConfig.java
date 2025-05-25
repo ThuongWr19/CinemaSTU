@@ -43,7 +43,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/movies/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/movies/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/movies/**").hasRole("ADMIN")
-                        .requestMatchers("/api/bookings/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/bookings/me").authenticated() // Yêu cầu đăng nhập cho GET /me
+                        .requestMatchers(HttpMethod.GET, "/api/bookings/**").permitAll() // Các GET khác của bookings
+                        .requestMatchers(HttpMethod.DELETE, "/api/bookings/**").authenticated() // Yêu cầu đăng nhập cho DELETE
+                        .requestMatchers(HttpMethod.POST, "/api/bookings/**").authenticated() // Yêu cầu đăng nhập cho POST
                         .requestMatchers(HttpMethod.PUT, "/api/bookings/**").hasRole("ADMIN")
                         .requestMatchers("/api/showtimes/**").authenticated()
                         .requestMatchers("/api/users/**").permitAll()

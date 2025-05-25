@@ -26,7 +26,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         try {
-            System.out.println("Login attempt for username: " + loginRequest.getUsername());
+            System.out.println("Người dùng đang đăng nhập: " + loginRequest.getUsername());
 
             if (loginRequest.getUsername() == null || loginRequest.getUsername().isEmpty() ||
                     loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {

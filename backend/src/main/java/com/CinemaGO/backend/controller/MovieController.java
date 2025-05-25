@@ -1,5 +1,6 @@
 package com.CinemaGO.backend.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/api/movies")
@@ -45,8 +45,31 @@ public class MovieController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
-        return ResponseEntity.ok(movieRepository.save(movie));
+    public ResponseEntity<?> createMovie(@RequestBody Movie movie) {
+        Movie savedMovie = movieRepository.save(movie);
+
+        // Tạo các suất chiếu mặc định
+        String[] theaters = {"Rạp 1", "Rạp 2"};
+        LocalDateTime[] showtimes = {
+                LocalDateTime.now().plusDays(1).withHour(14).withMinute(0).withSecond(0),
+                LocalDateTime.now().plusDays(1).withHour(17).withMinute(0).withSecond(0),
+                LocalDateTime.now().plusDays(1).withHour(20).withMinute(0).withSecond(0)
+        };
+
+        for (String theater : theaters) {
+            for (LocalDateTime showtimeDate : showtimes) {
+                Showtime showtime = new Showtime();
+                showtime.setMovie(savedMovie);
+                showtime.setTheaterName(theater);
+                showtime.setShowtime(showtimeDate);
+                showtime.setSeatMap(generateDefaultSeatMap());
+                int seatCount = (int) showtime.getSeatMap().chars().filter(c -> c == ':').count();
+                showtime.setAvailableSeats(seatCount);
+                showtimeRepository.save(showtime);
+            }
+        }
+
+        return ResponseEntity.ok(savedMovie);
     }
 
     @PutMapping("/{id}")
@@ -57,6 +80,11 @@ public class MovieController {
         existing.setPoster_url(movie.getPoster_url());
         existing.setTrailer_url(movie.getTrailer_url());
         existing.setDescription(movie.getDescription());
+        existing.setActors(movie.getActors());
+        existing.setDirector(movie.getDirector());
+        existing.setCountry(movie.getCountry());
+        existing.setDuration(movie.getDuration());
+        existing.setRating(movie.getRating());
         return ResponseEntity.ok(movieRepository.save(existing));
     }
 
@@ -72,6 +100,21 @@ public class MovieController {
         }
     }
 
+    private String generateDefaultSeatMap() {
+        StringBuilder sb = new StringBuilder();
+        char[] rows = {'A', 'B', 'C', 'D'};
+        int seatsPerRow = 20;
 
+        for (char row : rows) {
+            for (int i = 1; i <= seatsPerRow; i++) {
+                sb.append(row).append(i).append(":available,");
+            }
+        }
 
+        if (!sb.isEmpty()) {
+            sb.setLength(sb.length() - 1);
+        }
+
+        return sb.toString();
+    }
 }

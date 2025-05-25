@@ -13,8 +13,8 @@ public class BookingResponse {
     private Long movieId;
     private String theaterName;
     private String showtime;
-    private Long showtimeId; // Add this
+    private Long showtimeId;
     private Integer quantity;
     private String createdAt;
-    private String selectedSeats; // Add this
+    private String selectedSeats;
 }

@@ -11,6 +11,7 @@
   --success: #06d6a0;
   --error: #ef476f;
   --warning: #ffd166;
+  --background: url("/CinemaSTU/frontend/assets/background-5.svg");
 }
 
 * {
@@ -19,7 +20,7 @@
 }
 
 body {
-  background-image: url("/CinemaGo/frontend/assets/background.jpg");
+  background-image: var(--background);
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -39,6 +40,7 @@ body {
 
 footer {
   flex-shrink: 0;
+  background-color: #032541;
 }
 
 .logo,
@@ -53,7 +55,7 @@ footer {
 
 /* Parallax */
 .parallax-section {
-  background-image: url("/CinemaGo/frontend/assets/background.jpg");
+  background-image: var(--background);
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -65,33 +67,40 @@ footer {
 /* Navbar */
 .navbar {
   transition: background-color 0.2s ease, padding 0.2s ease;
+  background-color: #032541;
 }
+
 .navbar.scrolled {
   background-color: rgba(255, 255, 255, 0.95);
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-nav .nav-link {
+
+.link {
   position: relative;
   color: inherit;
   transition: color 0.2s ease;
 }
-nav .nav-link::after {
+
+.link::after {
   content: '';
   position: absolute;
   width: 100%;
   height: 2px;
   left: 0;
-  bottom: 5px;
+  right: 0;
+  bottom: 3px;
   background-color: var(--link);
   transform: scaleX(0);
-  transform-origin: bottom center;
+  transform-origin: bottom left;
   transition: transform 0.2s ease-out;
 }
-nav .nav-link:hover {
+
+.link:hover {
   color: var(--link);
 }
-nav .nav-link:hover::after {
+
+.link:hover::after {
   transform: scaleX(1);
 }
 
@@ -99,10 +108,12 @@ nav .nav-link:hover::after {
 .carousel-item {
   transition: transform 0.5s ease, opacity 0.5s ease !important;
 }
+
 .carousel-item img {
   transform: scale(1);
   transition: transform 0.3s ease;
 }
+
 .carousel-item.active img {
   transform: scale(1.03);
 }
@@ -114,16 +125,35 @@ nav .nav-link:hover::after {
   position: relative;
   z-index: 0;
 }
+
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
+
 .card img {
   transition: transform 0.2s ease;
 }
+
+.movie-img-wrapper {
+  height: 30vw;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 .card:hover img {
   transform: scale(1.01);
 }
+
 .movie-card {
   position: relative;
   z-index: 0;
@@ -133,15 +163,18 @@ nav .nav-link:hover::after {
 .form-control {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
 .form-control:focus {
   border-color: var(--title);
   box-shadow: 0 0 6px rgba(17, 138, 178, 0.2);
 }
+
 .form-label {
   transition: transform 0.2s ease, color 0.2s ease;
 }
-.form-control:focus + .form-label,
-.form-control:not(:placeholder-shown) + .form-label {
+
+.form-control:focus+.form-label,
+.form-control:not(:placeholder-shown)+.form-label {
   transform: translateY(-1.5rem) scale(0.85);
   color: var(--title);
 }
@@ -152,12 +185,15 @@ nav .nav-link:hover::after {
   overflow: hidden;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
+
 .btn:hover {
   transform: scale(1.03);
 }
+
 .btn:active {
   transform: scale(0.97);
 }
+
 .btn::after {
   content: '';
   position: absolute;
@@ -170,9 +206,11 @@ nav .nav-link:hover::after {
   transition: transform 0.2s ease;
   border-radius: 50%;
 }
+
 .btn:hover::after {
   transform: translate(-50%, -50%) scale(1);
 }
+
 .btn.loading::before {
   content: '';
   position: absolute;
@@ -188,13 +226,16 @@ nav .nav-link:hover::after {
 .modal {
   z-index: 1060 !important;
 }
+
 .modal-backdrop {
   z-index: 1050 !important;
 }
+
 .modal-dialog {
   max-width: 80vw;
   margin: 1.75rem auto;
 }
+
 .modal-content {
   transform: scale(0.9);
   opacity: 0;
@@ -207,6 +248,7 @@ nav .nav-link:hover::after {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
 }
+
 .modal-content-trailer {
   transform: scale(0.9);
   opacity: 0;
@@ -219,33 +261,42 @@ nav .nav-link:hover::after {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
 }
+
 .modal.show .modal-content {
   transform: scale(1);
   opacity: 1;
 }
+
 .modal-header {
   padding: 1rem;
   border-bottom: 1px solid #dee2e6;
   background: #f8f9fa;
 }
+
 .modal-body {
   padding: 10px;
 }
+
 .modal-content.border-success {
   border: 2px solid var(--success);
 }
+
 .modal-content.border-danger {
   border: 2px solid var(--error);
 }
+
 .modal-content.border-warning {
   border: 2px solid var(--warning);
 }
+
 .modal-content.text-success {
   color: var(--success);
 }
+
 .modal-content.text-danger {
   color: var(--error);
 }
+
 .modal-content.text-warning {
   color: var(--warning);
 }
@@ -256,33 +307,40 @@ nav .nav-link:hover::after {
   display: flex;
   flex-direction: column;
 }
+
 .trailer-modal.modal-sm {
   max-width: 300px;
   height: 50vh;
 }
+
 .trailer-modal.modal-md {
   max-width: 500px;
   height: 70vh;
 }
+
 .trailer-modal.modal-lg {
   max-width: 800px;
   height: 90vh;
 }
+
 .trailer-modal.modal-xl {
   max-width: 1140px;
   height: 100vh;
 }
+
 .trailer-modal .modal-content {
   height: 100%;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
 .trailer-modal .modal-body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
+
 .trailer-modal .modal-header {
   flex-shrink: 0;
 }
@@ -294,6 +352,7 @@ nav .nav-link:hover::after {
   height: 100%;
   overflow: hidden;
 }
+
 .trailer-container iframe {
   position: absolute;
   top: 0;
@@ -303,42 +362,169 @@ nav .nav-link:hover::after {
   border: none;
 }
 
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: contain;
+}
+
 /* Responsive adjustments */
 @media (max-width: 576px) {
   .modal-dialog {
     max-width: 95vw;
     margin: 0.5rem auto;
   }
+
   .trailer-modal .modal-dialog {
     max-width: 95vw;
     margin: 0 auto;
   }
+
   .trailer-modal.modal-sm {
     max-width: 90vw;
     height: 40vh;
   }
+
   .trailer-modal.modal-md {
     max-width: 90vw;
     height: 60vh;
   }
+
   .trailer-modal.modal-lg {
     max-width: 90vw;
     height: 80vh;
   }
+
   .trailer-modal.modal-xl {
     max-width: 90vw;
     height: 100vh;
   }
+
   .trailer-container {
     height: 100%;
   }
 }
 
+.movie-hover-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay khi hover */
+.movie-overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.movie-hover-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+/* Ẩn mô tả mặc định */
+.movie-description {
+  display: none;
+}
+
+/* Hover thì hiện mô tả */
+.movie-hover-card:hover .movie-description {
+  display: block;
+}
+
+/* Tiêu đề mặc định hiển thị */
+.movie-title {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover card => ẩn tiêu đề hoàn toàn */
+.movie-hover-card:hover .movie-title {
+  color: var(--link);
+}
+
 /* Keyframes */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.trailer-modal {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  z-index: 1050;
+}
+
+.trailer-modal .modal-dialog {
+  margin: auto;
+  width: 80vw;
+  max-width: 854px;
+  height: auto;
+  max-height: 90vh;
+}
+
+.trailer-modal .modal-content {
+  width: 100%;
+  height: 100%;
+}
+
+.trailer-modal .modal-backdrop {
+  z-index: 1040;
+}
+
+.trailer-modal.fade:not(.show) {
+  display: none !important;
+}
+
+.trailer-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.trailer-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Nếu muốn hiệu ứng mượt */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

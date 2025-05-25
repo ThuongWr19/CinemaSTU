@@ -1,3 +1,4 @@
+//Tạo table
 function renderTable({ title, headers, rows, actions }) {
     return `
         <h4>${title}</h4>

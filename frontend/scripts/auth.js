@@ -1,9 +1,9 @@
 window.auth = {
-    isLoggedIn: function() {
-        return localStorage.getItem('isLoggedIn') === 'true';
+    isLoggedIn: function () {
+        return localStorage.getItem('isLoggedIn') === 'true' && !!localStorage.getItem('accessToken');
     },
 
-    getCurrentUser: function() {
+    getCurrentUser: function () {
         if (this.isLoggedIn()) {
             return {
                 username: localStorage.getItem('username'),
@@ -15,11 +15,11 @@ window.auth = {
         return null;
     },
 
-    getToken: function() {
+    getToken: function () {
         return localStorage.getItem('accessToken');
     },
 
-    logout: function() {
+    logout: function () {
         ['accessToken', 'username', 'fullName', 'role', 'isLoggedIn'].forEach(item => localStorage.removeItem(item));
         updateLoginState();
         window.router.navigate('/');
@@ -28,18 +28,18 @@ window.auth = {
 
 function createLoggedInHTML(user) {
     const adminMenu = user.role === 'ROLE_ADMIN' ? `
-        <li><a class="dropdown-item" href="/CinemaGo/admin/dashboard">Dashboard Admin</a></li>
+        <li><a class="dropdown-item" href="/CinemaSTU/admin/dashboard">Dashboard Admin</a></li>
     ` : '';
-    
+
     return `
         <span class="me-3">Xin chào, ${user.fullName}</span>
         <div class="dropdown d-inline-block">
-            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-white text-white dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle"></i> Tài khoản
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="/CinemaGo/profile">Hồ sơ</a></li>
-                <li><a class="dropdown-item" href="/CinemaGo/tickets">Vé đã đặt</a></li>
+                <li><a class="dropdown-item" href="/CinemaSTU/profile">Hồ sơ</a></li>
+                <li><a class="dropdown-item" href="/CinemaSTU/tickets">Vé đã đặt</a></li>
                 ${adminMenu}
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" id="logoutBtn">Đăng xuất</a></li>
@@ -50,13 +50,13 @@ function createLoggedInHTML(user) {
 
 function createLoggedOutHTML() {
     return `
-        <a class="btn btn-outline-dark me-3" href="/CinemaGo/dangnhap" role="button">
+        <a class="btn btn-outline-success me-3 text-white border-0" href="/CinemaSTU/dangnhap" role="button">
             <i class="bi bi-person-circle"></i> Đăng nhập
         </a>
-        <a class="btn btn-outline-dark me-3" href="/CinemaGo/dangky" role="button">
+        <a class="btn btn-outline-success me-3 text-white border-0" href="/CinemaSTU/dangky" role="button">
             <i class="bi bi-person-plus"></i> Đăng ký
         </a>
-        <a class="btn btn-outline-dark" href="/CinemaGo/lienhe" role="button">
+        <a class="btn btn-outline-success text-white border-0" href="/CinemaSTU/lienhe" role="button">
             <i class="bi bi-patch-question-fill"></i> Liên hệ
         </a>
     `;
@@ -73,12 +73,15 @@ function updateLoginState() {
 
 async function authFetch(url, options = {}) {
     const token = auth.getToken();
+    if (!token && auth.isLoggedIn()) {
+        console.error("Không tìm thấy accessToken mặc dù đã đăng nhập");
+        throw new Error("Chưa đăng nhập hoặc token không hợp lệ");
+    }
     const headers = {
         'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }),
         ...options.headers
     };
-
     return fetch(url, { ...options, headers });
 }
 

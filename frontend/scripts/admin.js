@@ -4,17 +4,17 @@ async function loadAdminMovies(container) {
         <h3 class="mb-3">🎬 Danh sách phim</h3>
         <button class="btn btn-primary mb-3" id="add-movie">➕ Thêm phim</button>
         ${renderTable({
-            title: '',
-            headers: ['Tên phim', 'Ngày công chiếu', 'Trạng thái', ''],
-            rows: data.map(m => ({
-                id: m.id,
-                cells: [m.title, new Date(m.release_date).toLocaleDateString(), m.status]
-            })),
-            actions: id => [
-                `<button class="btn btn-warning btn-sm" data-action="edit" data-id="${id}">Sửa</button>`,
-                `<button class="btn btn-danger btn-sm" data-action="delete" data-id="${id}">Xóa</button>`
-            ]
-        })}
+        title: '',
+        headers: ['Tên phim', 'Ngày công chiếu', 'Trạng thái', ''],
+        rows: data.map(m => ({
+            id: m.id,
+            cells: [m.title, new Date(m.release_date).toLocaleDateString(), m.status]
+        })),
+        actions: id => [
+            `<button class="btn btn-warning btn-sm" data-action="edit" data-id="${id}">Sửa</button>`,
+            `<button class="btn btn-danger btn-sm" data-action="delete" data-id="${id}">Xóa</button>`
+        ]
+    })}
     `;
 
     container.querySelector("#add-movie").onclick = () => showMovieForm(container);
@@ -162,7 +162,7 @@ async function editUser(id) {
     const newUsername = prompt("Nhập username mới:");
     if (!newUsername) return;
     const newRole = prompt("Nhập quyền mới (USER hoặc ADMIN):")?.toUpperCase();
-    if (!["USER", "ADMIN"].includes(newRole)) {
+    if (!["ROLE_USER", "ROLE_ADMIN"].includes(newRole)) {
         showModal({
             title: 'Cảnh báo',
             message: 'Quyền không hợp lệ',
@@ -199,7 +199,7 @@ async function editUser(id) {
 }
 
 function showMovieForm(container, movieId = null) {
-    const movie = { title: "", description: "", release_date: "", poster_url: "", trailer_url: "", status: "COMING_SOON" };
+    const movie = { title: "", description: "", release_date: "", poster_url: "", trailer_url: "", status: "COMING_SOON", director: "", actors: "", duration: "", country: "", rating: "" };
     const fetchMovie = movieId ? fetch(`http://localhost:8080/api/movies/${movieId}`).then(res => res.json()) : Promise.resolve(movie);
 
     fetchMovie.then(data => {
@@ -217,6 +217,11 @@ function showMovieForm(container, movieId = null) {
                 <input class="form-control mb-2" placeholder="Poster URL" name="poster_url" value="${movie.poster_url}">
                 <input class="form-control mb-2" placeholder="Trailer URL" name="trailer_url" value="${movie.trailer_url}">
                 <textarea class="form-control mb-2" placeholder="Mô tả" name="description">${movie.description}</textarea>
+                <input class="form-control mb-2" placeholder="Đạo diễn" name="director" value="${movie.director}">
+                <input class="form-control mb-2" placeholder="Diễn viên" name="actors" value="${movie.actors}">
+                <input class="form-control mb-2" placeholder="Thời lượng" name="duration" value="${movie.duration}">
+                <input class="form-control mb-2" placeholder="Quốc gia" name="country" value="${movie.country}">
+                <input class="form-control mb-2" placeholder="Điểm đánh giá " name="rating" value="${movie.rating}">
                 <button class="btn btn-success" id="movie-form-btn">${movieId ? "Cập nhật" : "Thêm"}</button>
             </form>
         `;
@@ -233,7 +238,12 @@ function showMovieForm(container, movieId = null) {
                 release_date: form.release_date.value,
                 status: form.status.value,
                 poster_url: form.poster_url.value,
-                trailer_url: form.trailer_url.value
+                trailer_url: form.trailer_url.value,
+                director: form.director.value,
+                actors: form.actors.value,
+                duration: form.duration.value,
+                country: form.country.value,
+                rating: form.rating.value
             };
 
             await authFetch(`http://localhost:8080/api/movies${movieId ? `/${movieId}` : ''}`, {
