@@ -19,7 +19,82 @@ function createMovieCard(movie, size = 'md') {
                 </div>
             </a>
         </div>
+<<<<<<< HEAD
 `;
+=======
+        <style>
+            .trailer-modal {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                z-index: 1050;
+            }
+            .trailer-modal .modal-dialog {
+                margin: auto;
+                width: 80vw;
+                max-width: 854px;
+                height: auto;
+                max-height: 90vh;
+            }
+            .trailer-modal .modal-content {
+                width: 100%;
+                height: 100%;
+            }
+            .trailer-modal .modal-backdrop {
+                z-index: 1040;
+            }
+            .trailer-modal.fade:not(.show) {
+                display: none !important;
+            }
+            .trailer-container {
+                position: relative;
+                width: 100%;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+            }
+            .trailer-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    ` : '';
+
+    if (trailerModal) {
+        document.body.insertAdjacentHTML('beforeend', trailerModal);
+
+        const modal = document.getElementById(modalId);
+        modal.addEventListener('hidden.bs.modal', () => {
+            document.body.classList.remove('modal-open');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+        }, { once: true });
+    }
+
+    return `
+        <div class="col movie-card" style="opacity: 0; animation: fadeIn 0.3s ease-in forwards; animation-delay: ${movie.id * 0.1}s;">
+            <div class="card text-center h-100">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                    <img src="${movie.poster_url}" class="img-thumbnail rounded-4" style="height: 500px;"
+                         onerror="this.src='/CinemaSTU/frontend/assets/favicon-32x32.png'"/>
+                    <a href="#"><div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div></a>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">${movie.title}</h5>
+                    <p class="card-text">${movie.description || 'No description available'}</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        ${trailerButton}
+                        <a href="${BASE_PATH}/datve?id=${movie.id}" class="btn btn-success">Đặt vé</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+>>>>>>> 03ba8f5fedf36880930ec9f80751be02ad2c870e
 }
 
 async function getMovieList() {
@@ -256,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('movies-list')) {
         getMovieList();
     }
+<<<<<<< HEAD
     if (document.getElementById('now-showing-list')) {
         getNowShowingMovies();
     }
@@ -263,3 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
         getComingSoonMovies();
     }
 });
+=======
+});
+>>>>>>> 03ba8f5fedf36880930ec9f80751be02ad2c870e

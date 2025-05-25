@@ -50,6 +50,7 @@ function createLoggedInHTML(user) {
 
 function createLoggedOutHTML() {
     return `
+<<<<<<< HEAD
         <a class="btn btn-outline-success me-3 text-white border-0" href="/CinemaSTU/dangnhap" role="button">
             <i class="bi bi-person-circle"></i> Đăng nhập
         </a>
@@ -57,6 +58,15 @@ function createLoggedOutHTML() {
             <i class="bi bi-person-plus"></i> Đăng ký
         </a>
         <a class="btn btn-outline-success text-white border-0" href="/CinemaSTU/lienhe" role="button">
+=======
+        <a class="btn btn-outline-dark me-3" href="/CinemaSTU/dangnhap" role="button">
+            <i class="bi bi-person-circle"></i> Đăng nhập
+        </a>
+        <a class="btn btn-outline-dark me-3" href="/CinemaSTU/dangky" role="button">
+            <i class="bi bi-person-plus"></i> Đăng ký
+        </a>
+        <a class="btn btn-outline-dark" href="/CinemaSTU/lienhe" role="button">
+>>>>>>> 03ba8f5fedf36880930ec9f80751be02ad2c870e
             <i class="bi bi-patch-question-fill"></i> Liên hệ
         </a>
     `;

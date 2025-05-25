@@ -1,5 +1,5 @@
 
-# 🎬 CinemaGo
+# 🎬 **CinemaSTU**
 
 **CinemaGo** là ứng dụng đặt vé xem phim trực tuyến, giúp bạn dễ dàng chọn phim yêu thích, đặt vé và tận hưởng trải nghiệm rạp chiếu mà không cần phải xếp hàng chờ đợi. 🍿
 
@@ -9,28 +9,18 @@
 
 ### 🎞️ Danh sách phim
 - Xem thông tin chi tiết về các bộ phim đang chiếu.
-- Tìm kiếm phim theo tên một cách dễ dàng. ###(Làm chưa tới)
 
 ### 🎟️ Đặt vé
 - Chọn ghế ngồi theo ý thích (nếu chưa bị "ai đó" đặt mất trước 🚀).
-- Thanh toán nhanh chóng và tiện lợi. ###(Làm chưa tới)
 
 ### 👤 Quản lý tài khoản
 - Đăng ký / Đăng nhập tài khoản.
 - Theo dõi lịch sử đặt vé cá nhân.
 
-### 🏢 Tích hợp rạp chiếu
-- Cập nhật lịch chiếu từ các rạp phim nổi tiếng. ###(Làm chưa tới)
-
 ### 🖥️ Giao diện thân thiện
 - Thiết kế trực quan, dễ sử dụng kể cả với người mới.
 
 ---
-
-<<<<<<< HEAD
-## Giấy phép
-Dự án này được phát hành dưới [MIT License](LICENSE).
-=======
 ## 🛠️ Công nghệ sử dụng
 
 | Thành phần     | Công nghệ              |
@@ -52,7 +42,7 @@ Dự án này được phát hành dưới [MIT License](LICENSE).
 
 #### 📥 Bước 1: Clone repository
 ```bash
-git clone https://github.com/ThuongWr19/CinemaGo.git
+git clone https://github.com/ThuongWr19/CinemaSTU.git
 cd CinemaGo
 ```
 
@@ -60,31 +50,25 @@ cd CinemaGo
 - Mở file `application.properties` tại `src/main/resources`.
 - Cập nhật thông tin kết nối MySQL:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/cinema_go
+spring.datasource.url=jdbc:mysql://localhost:3306/cinemastu
 spring.datasource.username=<tên người dùng>
 spring.datasource.password=<mật khẩu>
 ```
 
 #### ▶️ Bước 3: Chạy back-end
+Vào folder backend chạy file .bat
 ```bash
 ./mvnw spring-boot:run
 ```
 
 #### 🌐 Bước 4: Chạy front-end
 ```bash
-cd frontend
-npm install
-npm start
+B1: Cài Wampserver, chạy wampserver, import file sql vào tên cinemastu
+B2: nhét folder CinemaSTU vào C:\wamp64\www\
 ```
 
 #### 🔗 Bước 5: Truy cập ứng dụng
-- Mở trình duyệt và truy cập: [http://localhost:3000](http://localhost:3000) (hoặc cổng đã được cấu hình).
-
----
-
-## 📬 Đóng góp
-
-Nếu bạn muốn cải thiện ứng dụng này, hãy **tạo Pull Request** hoặc **mở Issue** để cùng thảo luận và phát triển nhé! 💬
+- Mở trình duyệt và truy cập: [http://localhost/CinemaSTU](http://localhost/CinemaSTU).
 
 ---
 
@@ -92,7 +76,3 @@ Nếu bạn muốn cải thiện ứng dụng này, hãy **tạo Pull Request** 
 
 Dự án sử dụng **giấy phép MIT**. Bạn có thể thoải mái sử dụng, chỉnh sửa và phát triển thêm theo nhu cầu.
 
----
-
-🎉 **Chúc bạn có trải nghiệm tuyệt vời cùng CinemaGo!**
->>>>>>> a31a7b4b4e5f92ce23ebe327a4f9d5a9e4e6527d
