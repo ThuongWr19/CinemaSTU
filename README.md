@@ -1,7 +1,7 @@
 
 # **CinemaSTU**
 
-**CinemaGo** là ứng dụng đặt vé xem phim trực tuyến, giúp bạn dễ dàng chọn phim yêu thích, đặt vé và tận hưởng trải nghiệm rạp chiếu mà không cần phải xếp hàng chờ đợi. 🍿
+**CinemaGo** là ứng dụng đặt vé xem phim trực tuyến, giúp bạn dễ dàng chọn phim yêu thích, đặt vé và tận hưởng trải nghiệm rạp chiếu mà không cần phải xếp hàng chờ đợi.
 
 ---
 
@@ -11,7 +11,7 @@
 - Xem thông tin chi tiết về các bộ phim đang chiếu.
 
 ### Đặt vé
-- Chọn ghế ngồi theo ý thích (nếu chưa bị "ai đó" đặt mất trước 🚀).
+- Chọn ghế ngồi theo ý thích (nếu chưa bị "ai đó" đặt mất trước).
 
 ### Quản lý tài khoản
 - Đăng ký / Đăng nhập tài khoản.
