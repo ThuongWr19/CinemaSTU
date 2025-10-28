@@ -20,7 +20,7 @@ async function loadUserTickets() {
                         <strong>Thời gian:</strong> ${new Date(booking.showtime.showtime).toLocaleString()}<br>
                         <strong>Số lượng vé:</strong> ${booking.quantity}
                     </p>
-                    <button class="btn btn-danger btn-sm delete-btn">Xoá vé</button>
+                    <button class="btn btn-danger btn-sm delete-btn px-3 fs-5">Hủy vé</button>
                 </div>
             </div>
         `).join('') : `<p class="text-white">Không có vé nào.</p>`;

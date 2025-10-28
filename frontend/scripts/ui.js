@@ -4,7 +4,7 @@ function renderTable({ title, headers, rows, actions }) {
         <h4>${title}</h4>
         <table class="table table-bordered">
             <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
-            <tbody>${rows.map(row => `
+            <tbody class="text-start">${rows.map(row => `
                 <tr>${row.cells.map(cell => `<td>${cell}</td>`).join('')}
                     ${actions ? `<td>${actions(row.id).join('')}</td>` : ''}
                 </tr>`).join('')}
@@ -79,12 +79,12 @@ function showModal({ title, message, type = 'error', autoClose = false, size = '
 
     modalTitle.textContent = title;
     modalBody.textContent = message;
-    
+
     modalDialog.classList.remove('modal-sm', 'modal-md', 'modal-lg', 'modal-xl');
     modalDialog.classList.add(`modal-${size}`);
-    
+
     modalContent.classList.remove('border-success', 'border-danger', 'border-warning', 'text-success', 'text-danger', 'text-warning');
-    
+
     if (type === 'success') {
         modalContent.classList.add('border-success', 'text-success');
     } else if (type === 'warning') {

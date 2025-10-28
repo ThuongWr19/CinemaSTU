@@ -89,7 +89,21 @@ async function getNowShowingMovies() {
             return;
         }
 
-        nowShowingList.innerHTML = nowShowingMovies.map(movie => createMovieCard(movie, 'md')).join('');
+        const maxInitial = 8;
+        const initialMovies = nowShowingMovies.slice(0, maxInitial);
+        const remainingMovies = nowShowingMovies.slice(maxInitial);
+
+        nowShowingList.innerHTML = initialMovies.map(movie => createMovieCard(movie, 'md')).join('');
+        if (remainingMovies.length > 0) {
+            const button = document.createElement("button");
+            button.className = "btn btn-outline-primary mt-4 d-block mx-auto";
+            button.innerText = "Xem thêm";
+            button.addEventListener("click", () => {
+                nowShowingList.insertAdjacentHTML("beforeend", remainingMovies.map(movie => createMovieCard(movie, 'md')).join(''));
+                button.remove();
+            });
+            nowShowingList.parentElement.appendChild(button);
+        }
     } catch (error) {
         console.error("Error fetching now showing movies:", error);
         showModal({

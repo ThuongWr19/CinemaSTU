@@ -19,15 +19,16 @@ async function loadMovieBooking(movieId) {
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="${movie.poster_url}" class="img-fluid rounded-start" alt="Poster phim">
+                        <img src="${movie.poster_url}" class="img-fluid rounded-start my-auto" alt="Poster phim">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 text-start d-flex flex-column justify-content-center">
                         <div class="card-body">
-                            <h5 class="card-title">${movie.title}</h5>
+                            <h3 class="card-title fw-bolder">${movie.title}</h3>
                             <p class="card-text">${movie.description}</p>
+                            <hr/>
                             <form id="booking-form">
                                 <div class="mb-3">
-                                    <label for="showtime-select" class="form-label">Chọn suất chiếu</label>
+                                    <label for="showtime-select" class="form-label fw-bold">Chọn suất chiếu</label>
                                     <select id="showtime-select" class="form-select" required>
                                         <option value="">-- Chọn suất chiếu --</option>
                                         ${showtimes.map(s => `
@@ -38,7 +39,7 @@ async function loadMovieBooking(movieId) {
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="ticket-count" class="form-label">Số lượng vé</label>
+                                    <label for="ticket-count" class="form-label fw-bold">Số lượng vé</label>
                                     <input type="number" class="form-control" id="ticket-count" min="1" value="1">
                                 </div>
                                 <button type="submit" class="btn btn-primary" id="booking-btn">Xác nhận đặt vé</button>
@@ -200,7 +201,7 @@ async function showBookingForm(container, bookingId) {
 
         container.innerHTML = `
             <h4>✏️ Sửa vé</h4>
-            <form id="edit-booking-form">
+            <form id="edit-booking-form" class="text-start d-flex justify-content-center flex-column">
                 <label>Mã vé:</label>
                 <input class="form-control mb-2" value="${booking.bookingCode}" disabled>
                 <label>Tên phim:</label>
@@ -218,9 +219,8 @@ async function showBookingForm(container, bookingId) {
                 </select>
                 <label>Số lượng vé:</label>
                 <input class="form-control mb-2" name="quantity" type="number" value="${booking.quantity}" min="1" required>
-                <label>Chọn ghế:</label>
                 <div id="seat-container" class="mt-2"></div>
-                <button type="submit" class="btn btn-success" id="edit-booking-btn">Lưu</button>
+                <button type="submit" class="btn btn-success my-5" id="edit-booking-btn">Lưu</button>
             </form>
         `;
 

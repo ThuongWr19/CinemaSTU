@@ -1,0 +1,101 @@
+C:.
+   index.html
+backend
+      mvnw
+      mvnw.cmd
+      pom.xml    
+   src
+      main
+         java
+            com
+                CinemaSTU
+                    backend
+                           BackendApplication.java
+                           
+                        config
+                               SecurityConfig.java
+                               
+                        controller
+                               AuthController.java
+                               BookingController.java
+                               MovieController.java
+                               ShowtimeController.java
+                               UserController.java
+                               
+                        dto
+                               AuthResponse.java
+                               BookingRequest.java
+                               BookingResponse.java
+                               LoginRequest.java
+                               RegisterRequest.java
+                               UserDTO.java
+                               
+                        entities
+                               Booking.java
+                               Movie.java
+                               Roles.java
+                               Showtime.java
+                               User.java
+                               
+                        repositories
+                               BookingRepository.java
+                               MovieRepository.java
+                               RoleRepository.java
+                               ShowtimeRepository.java
+                               UserRepository.java
+                               
+                        security
+                               JwtAuthenticationFilter.java
+                               JwtTokenProvider.java
+                               UserDetailsServiceImpl.java
+                               
+                        services
+                                AuthService.java
+                                
+         resources
+                application.properties
+                
+             static
+             templates
+      test
+          java
+              com
+                  CinemaSTU
+                      backend
+                              BackendApplicationTests.java
+                              BookingControllerTest.java
+       
+frontend
+    assets
+       Banner
+       Poster
+    scripts
+           admin.js
+           auth.js
+           bookings.js
+           movies.js
+           router.js
+           tickets.js
+           ui.js
+           utils.js
+           
+    styles
+           style.css
+           
+    template
+            404.html
+            admin.html
+            booking.html
+            coming_soon.html
+            contact.html
+            faq.html
+            home.html
+            login.html
+            movie-details.html
+            movies-list.html
+            now_showing.html
+            policy.html
+            register.html
+            template.html
+            tickets.html
+            
